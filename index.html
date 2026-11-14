@@ -1,0 +1,2299 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="meta-page-title">Norivelle</title>
+
+    <!-- รองรับการแชร์ลงมือถือแบบแอปพลิเคชัน (PWA / Add to Home Screen) & รูปพรีวิวลิงก์ -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta id="meta-app-title" name="apple-mobile-web-app-title" content="Norivelle">
+    <meta id="meta-og-title" property="og:title" content="Norivelle">
+    <meta id="meta-og-desc" property="og:description" content="สตูดิโอรับทำเว็บไซต์หน้าร้าน มินิมอลน่ารัก และรับออกแบบป้ายทุกชนิด">
+    <meta id="meta-og-image" property="og:image" content="https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png">
+    <link id="meta-apple-icon" rel="apple-touch-icon" href="https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png">
+    <link id="meta-favicon" rel="icon" type="image/png" href="https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png">
+    <link id="meta-manifest" rel="manifest" href="">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Prompt (Clean Modern App Style ตามภาพอ้างอิง) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastel: {
+                            bg: '#FDF7FA',
+                            card: '#FFFFFF',
+                            pink: '#FCE4F0',
+                            pinkDark: '#D972A6',
+                            purple: '#EFE6FA',
+                            purpleDark: '#7C5295',
+                            gold: '#E8D5E8',
+                            text: '#3D2C47',
+                            muted: '#8A7996'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Plus Jakarta Sans"', 'Prompt', 'sans-serif'],
+                        body: ['"Plus Jakarta Sans"', 'Prompt', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'soft': '0 6px 24px -4px rgba(124, 82, 149, 0.08), 0 2px 6px -1px rgba(124, 82, 149, 0.04)',
+                        'pill': '0 2px 8px 0 rgba(124, 82, 149, 0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif;
+            background-color: #FDF7FA;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(252, 228, 240, 0.7) 0px, transparent 50%),
+                radial-gradient(at 90% 15%, rgba(239, 230, 250, 0.75) 0px, transparent 50%),
+                radial-gradient(at 50% 90%, rgba(252, 228, 240, 0.5) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #3D2C47;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, .font-cute {
+            font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Marquee Animation */
+        .marquee-wrapper {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 22s linear infinite;
+        }
+        .marquee-wrapper:hover .marquee-text {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* กรอบพาสเทลละมุนและปุ่มแท็บทรงแคปซูล */
+        .luxury-frame {
+            border: 1.5px solid #EBD8F0;
+            box-shadow: 0 6px 24px -4px rgba(124, 82, 149, 0.08), 0 2px 6px -1px rgba(124, 82, 149, 0.04);
+        }
+        .tab-btn {
+            background-color: #FFFFFF;
+            color: #3D2C47;
+            border: 1.5px solid #E5CEF0;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover {
+            background-color: #FDF2F8;
+            border-color: #D972A6;
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #D972A6 0%, #8E62A8 100%);
+            color: #FFFFFF;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(142, 98, 168, 0.28);
+        }
+
+        /* กรอบพื้นที่ของทุกแท็บขยายเต็มพื้นที่ลงมาด้านล่างตามกรอบสีแดง */
+        .tab-panel-frame {
+            height: 620px;
+            max-height: 64vh;
+            overflow-y: auto;
+        }
+
+        /* ลูกเล่นแผ่นเสียง PNG หมุน + โน้ตดนตรีลอยออกมา (วงสีฟ้า) */
+        @keyframes vinylSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes musicNoteFloat {
+            0% {
+                transform: translate(0, 0) scale(0.6) rotate(-10deg);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--nx, -12px), -34px) scale(1.1) rotate(14deg);
+                opacity: 0;
+            }
+        }
+        .vinyl-spinning {
+            animation: vinylSpin 5.5s linear infinite;
+        }
+        .vinyl-paused {
+            animation-play-state: paused;
+        }
+        .floating-music-note {
+            position: absolute;
+            pointer-events: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: #D972A6;
+            filter: drop-shadow(0 2px 4px rgba(142, 98, 168, 0.25));
+            animation: musicNoteFloat 1.9s ease-out forwards;
+        }
+
+        /* ลูกเล่นปุ่ม PNG ลอยดุ๊กดิ๊กน่ารัก */
+        @keyframes mascotFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2.5deg); }
+        }
+        @keyframes bubblePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        .mascot-float {
+            animation: mascotFloat 3.2s ease-in-out infinite;
+        }
+        .mascot-float:hover {
+            animation-play-state: paused;
+        }
+        .bubble-float {
+            animation: bubblePulse 2.8s ease-in-out infinite;
+        }
+
+        /* ลูกเล่นเวลาจิ้ม/แตะหน้าจอฟุ้งๆ น่ารัก */
+        @keyframes dreamyRipple {
+            0% {
+                transform: translate(-50%, -50%) scale(0.2);
+                opacity: 0.75;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.4);
+                opacity: 0;
+            }
+        }
+        @keyframes dreamySparkleFloat {
+            0% {
+                transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.15) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+        .tap-ripple-ring {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            width: 44px;
+            height: 44px;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(252,228,240,0.85) 0%, rgba(239,230,250,0.45) 60%, transparent 100%);
+            border: 1.5px solid rgba(217, 114, 166, 0.45);
+            animation: dreamyRipple 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .tap-sparkle-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 14px;
+            user-select: none;
+            filter: drop-shadow(0 2px 6px rgba(217, 114, 166, 0.35));
+            animation: dreamySparkleFloat 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDF7FA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E2CCE8;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8E62A8;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-5 sm:py-8 px-3 sm:px-5 selection:bg-pastel-pink selection:text-pastel-text">
+
+    <!-- MAIN CONTAINER (จัดมุมมองกรอบเว็บให้พอดีและขยับลงมาสมดุลตามที่วงสีแดง) -->
+    <main class="max-w-xl mx-auto space-y-3.5">
+
+        <!-- =================================================================
+             1. กรอบบนสุดในแบบร่าง: [ โลโก้ (ซ้าย) | ชื่อร้าน + รายละเอียด (ขวา) ]
+             ================================================================= -->
+        <header class="relative bg-white rounded-3xl p-4 sm:p-5 luxury-frame overflow-hidden">
+            <!-- แถบสีตกแต่งด้านบน -->
+            <div class="absolute inset-x-0 top-0 h-16 bg-gradient-to-r from-pastel-pink/80 via-pastel-purple/80 to-pastel-pink/80"></div>
+
+            <!-- ตรงวงสีฟ้า: ปุ่ม PNG แผ่นเสียงหมุน + โน้ตดนตรีลอย (เปิด/ปิดเพลงได้) -->
+            <div id="vinyl-player-box" class="absolute top-2.5 right-3 z-20 flex flex-col items-center">
+                <button onclick="toggleBgmPlayback(event)" title="คลิกเพื่อเปิด/หยุดเพลงประกอบร้าน" class="group relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center focus:outline-none">
+                    <!-- พื้นที่ปล่อยโน้ตดนตรีลอย -->
+                    <div id="vinyl-notes-layer" class="absolute inset-0 pointer-events-none overflow-visible"></div>
+                    <!-- รูป PNG แผ่นเสียงหมุน -->
+                    <img id="vinyl-disc-img"
+                         src="https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png"
+                         alt="Music Disc PNG"
+                         onerror="this.src='https://placehold.co/120x120/FCE4F0/7C5295?text=Disc'"
+                         class="vinyl-spinning w-full h-full object-cover rounded-full border-2 border-white shadow-soft bg-white/90 transition-transform group-hover:scale-105">
+                    <!-- รูตรงกลางแผ่นเสียง -->
+                    <span class="w-3 h-3 rounded-full bg-white border-2 border-pastel-pinkDark/70 absolute pointer-events-none shadow-2xs"></span>
+                    <!-- ไอคอนสถานะเสียงมุมล่างขวา -->
+                    <span id="vinyl-sound-badge" class="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white flex items-center justify-center border border-white shadow-2xs">
+                        <i id="vinyl-sound-icon" class="ph-fill ph-music-notes text-[10px]"></i>
+                    </span>
+                </button>
+            </div>
+
+            <!-- ปุ่มแก้ไขสำหรับแอดมิน (รวมเปลี่ยนรูป PNG ทุกจุด + เพลง) -->
+            <button onclick="openHeaderModal()" class="admin-only hidden absolute top-2.5 right-18 sm:right-20 z-20 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] bg-white/95 text-pastel-purpleDark hover:bg-pastel-purpleDark hover:text-white transition shadow-xs border border-pastel-purple">
+                <i class="ph-fill ph-pencil-simple"></i> แก้ไขเว็บ & รูป PNG
+            </button>
+
+            <div class="relative pt-2 flex flex-row items-center gap-3.5 sm:gap-5 pr-12 sm:pr-14">
+                <!-- ฝั่งซ้าย: โลโก้ทรงกลมซ้อนกรอบพาสเทล (กดตรงโลโก้เพื่อเข้า/ออกระบบหลังบ้าน) -->
+                <div onclick="handleLogoAdminAccess(event)" title="กดตรงโลโก้เพื่อเข้าสู่ระบบหลังบ้าน" class="relative shrink-0 cursor-pointer group">
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-tr from-pastel-pink to-pastel-purple p-1 shadow-soft transition-transform duration-200 group-hover:scale-105 group-active:scale-95">
+                        <img id="store-logo" 
+                             src="https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png" 
+                             alt="Norivelle Logo" 
+                             onerror="this.src='https://placehold.co/300x300/FCE4F0/7C5295?text=Norivelle'"
+                             class="w-full h-full object-cover rounded-full bg-white border-2 border-white">
+                    </div>
+                    <span id="logo-admin-badge" class="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full bg-pastel-purpleDark text-white flex items-center justify-center shadow-xs border-2 border-white transition-colors">
+                        <i id="logo-admin-icon" class="ph-fill ph-sparkle text-xs"></i>
+                    </span>
+                </div>
+
+                <!-- ฝั่งขวา: ชื่อร้าน (บน) + กล่องรายละเอียดแยกสัดส่วน (ล่าง) -->
+                <div class="flex-1 min-w-0 text-left space-y-1.5">
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <h1 id="store-name" class="text-xl sm:text-2xl font-extrabold text-pastel-text tracking-tight">
+                            Norivelle
+                        </h1>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pastel-pink/80 text-pastel-purpleDark text-[10px] font-semibold">
+                            <i class="ph-fill ph-heart text-[10px] text-pastel-pinkDark"></i>
+                            <span id="store-badge">Welcome to our little space</span>
+                        </span>
+                    </div>
+                    <div class="rounded-2xl bg-pastel-bg/90 border border-pastel-purple/70 p-2.5 sm:p-3">
+                        <p id="store-desc" class="text-xs text-pastel-muted leading-relaxed font-normal">
+                            ร้านรวมสินค้าหลากหลาย สไตล์น่ารักมินิมอล ทั้งของสะสม งานดีไซน์ สินค้าดิจิทัล และรับทำตามออเดอร์ ดูแลด้วยใจทุกชิ้นค่ะ 🌸
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- =================================================================
+             2. กรอบแคปซูลถัดลงมาในแบบร่าง: [ ข้อความวิ่ง ]
+             ================================================================= -->
+        <section class="relative bg-white rounded-full px-4 py-2 luxury-frame flex items-center gap-2.5">
+            <span class="w-6 h-6 rounded-full bg-pastel-pink/80 text-pastel-pinkDark flex items-center justify-center shrink-0">
+                <i class="ph-fill ph-megaphone text-xs"></i>
+            </span>
+            <div class="marquee-wrapper flex-1 text-xs font-medium text-pastel-text">
+                <div id="marquee-content" class="marquee-text">
+                    🎀 ยินดีต้อนรับสู่ร้าน Norivelle! รับทำเว็บไซต์หน้าร้าน & ออกแบบป้ายทุกสไตล์ ✨ เลือกแพ็กเกจและของตกแต่งที่ชอบแล้วป้อนแครอทส่งให้แอดมินได้เลยน้า 💜
+                </div>
+            </div>
+            <button onclick="openMarqueeModal()" class="admin-only hidden shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] bg-pastel-purple text-pastel-purpleDark hover:bg-pastel-purpleDark hover:text-white transition">
+                <i class="ph-fill ph-pencil-simple"></i> แก้ไข
+            </button>
+        </section>
+
+        <!-- =================================================================
+             3. ปุ่มแท็บเล็กๆ 4 ปุ่มเรียงแนวนอนตามต้นฉบับ
+             ================================================================= -->
+        <nav aria-label="เมนูหลักของร้าน" class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-0.5">
+            <button onclick="switchTab('products')" id="tab-btn-products" class="tab-btn rounded-full py-2 px-3 text-xs font-medium shadow-xs inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+                <i class="ph-bold ph-grid-four text-xs text-pastel-purpleDark transition-colors"></i>
+                <span>สินค้า</span>
+            </button>
+            <button onclick="switchTab('tracking')" id="tab-btn-tracking" class="tab-btn rounded-full py-2 px-3 text-xs font-medium shadow-xs inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+                <i class="ph-bold ph-magic-wand text-xs text-pastel-purpleDark transition-colors"></i>
+                <span>เลือกของแต่ง</span>
+            </button>
+            <button onclick="switchTab('payment')" id="tab-btn-payment" class="tab-btn rounded-full py-2 px-3 text-xs font-medium shadow-xs inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+                <i class="ph-bold ph-credit-card text-xs text-pastel-purpleDark transition-colors"></i>
+                <span>ช่องทางการโอน</span>
+            </button>
+            <button onclick="switchTab('contact')" id="tab-btn-contact" class="tab-btn rounded-full py-2 px-3 text-xs font-medium shadow-xs inline-flex items-center justify-center gap-1.5 whitespace-nowrap">
+                <i class="ph-bold ph-chat-circle-dots text-xs text-pastel-purpleDark transition-colors"></i>
+                <span>ช่องทางการติดต่อ</span>
+            </button>
+        </nav>
+
+        <!-- =================================================================
+             4. พื้นที่แสดงผลด้านล่างปุ่มแท็บ
+             ================================================================= -->
+
+        <!-- [VIEW A] หน้าหลักตามแบบร่าง (พื้นที่กรอบกฎและรายละเอียดเท่าเดิม ไม่ยืดยาวโล่ง) -->
+        <div id="view-home" class="space-y-3.5">
+            
+            <!-- กล่องรายละเอียดที่ 1 (บน): กฎของร้าน & เงื่อนไขงานทำเว็บ/ออกแบบป้าย -->
+            <section class="relative bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-5 luxury-frame">
+                <div class="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-[#D4AF37]/25">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-pastel-pink/70 border border-[#D4AF37]/30 text-pastel-text text-xs flex items-center justify-center font-cute font-bold">I</span>
+                        <h2 id="box1-title" class="text-base sm:text-lg font-bold text-pastel-text">กฎของร้าน & เงื่อนไขการสั่งทำเว็บ / ออกแบบป้าย</h2>
+                    </div>
+                    <button onclick="openBox1Modal()" class="admin-only hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] bg-pastel-purple text-pastel-purpleDark hover:bg-pastel-purpleDark hover:text-white transition">
+                        <i class="ph-fill ph-pencil-simple"></i> แก้ไขกล่องที่ 1
+                    </button>
+                </div>
+
+                <div class="rounded-xl bg-pastel-bg/90 p-3.5 border border-[#D4AF37]/20 mb-3">
+                    <p id="box1-content" class="text-xs sm:text-sm text-pastel-text/90 leading-relaxed whitespace-pre-line font-light"></p>
+                </div>
+
+                <!-- การ์ดย่อยสรุปขั้นตอนการสั่งทำ -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <div onclick="switchTab('products')" class="cursor-pointer group rounded-xl bg-pastel-bg p-2.5 border border-pastel-purple hover:border-pastel-purpleDark transition">
+                        <div class="flex items-center gap-1.5 text-pastel-purpleDark font-medium text-xs mb-0.5">
+                            <i class="ph-fill ph-eye text-pastel-pinkDark"></i> 1. เลือกแพ็กเกจเว็บ/ป้าย
+                        </div>
+                        <p class="text-[11px] text-pastel-muted font-light">ชมตัวอย่างงานทำเว็บและป้ายในแท็บสินค้า</p>
+                    </div>
+                    <div onclick="switchTab('tracking')" class="cursor-pointer group rounded-xl bg-pastel-bg p-2.5 border border-pastel-purple hover:border-pastel-purpleDark transition">
+                        <div class="flex items-center gap-1.5 text-pastel-purpleDark font-medium text-xs mb-0.5">
+                            <i class="ph-fill ph-magic-wand text-pastel-pinkDark"></i> 2. เลือกของแต่ง
+                        </div>
+                        <p class="text-[11px] text-pastel-muted font-light">เลือกไอคอน ริบบิ้น และของตกแต่งสไตล์ที่ชอบ</p>
+                    </div>
+                    <div onclick="switchTab('payment')" class="cursor-pointer group rounded-xl bg-pastel-bg p-2.5 border border-pastel-purple hover:border-pastel-purpleDark transition">
+                        <div class="flex items-center gap-1.5 text-pastel-purpleDark font-medium text-xs mb-0.5">
+                            <i class="ph-fill ph-qr-code text-pastel-pinkDark"></i> 3. ช่องทางการโอน
+                        </div>
+                        <p class="text-[11px] text-pastel-muted font-light">ชำระมัดจำ/ยอดเต็มผ่านบัญชีหรือ QR Code</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- กล่องรายละเอียดที่ 2 (ล่าง): รายละเอียดอื่นๆ เพิ่มเติมเกี่ยวกับงานทำเว็บ & ออกแบบป้าย -->
+            <section class="relative bg-white/95 backdrop-blur-sm rounded-2xl p-4 sm:p-5 luxury-frame">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2.5 border-b border-[#D4AF37]/25">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-pastel-purple/70 border border-[#D4AF37]/30 text-pastel-text text-xs flex items-center justify-center font-cute font-bold">II</span>
+                        <div>
+                            <h2 id="box2-title" class="text-base sm:text-lg font-bold text-pastel-text">รายละเอียดเพิ่มเติม & ขั้นตอนส่งงาน</h2>
+                            <p id="box2-subtitle" class="text-[11px] text-pastel-muted font-light">ระยะเวลาทำเว็บ งานออกแบบป้าย และไฟล์ที่จะได้รับ</p>
+                        </div>
+                    </div>
+                    <div class="admin-only hidden flex flex-wrap items-center gap-1.5">
+                        <button onclick="openBox2TextModal()" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] bg-pastel-purple text-pastel-purpleDark hover:bg-pastel-purpleDark hover:text-white transition">
+                            <i class="ph-fill ph-pencil-simple"></i> แก้ไขรายละเอียดกล่องที่ 2
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ข้อความรายละเอียดอื่นๆ เพิ่มเติมในกล่องที่ 2 -->
+                <div class="rounded-xl bg-pastel-bg/90 p-3.5 border border-[#D4AF37]/20">
+                    <p id="box2-content" class="text-xs sm:text-sm text-pastel-text/90 leading-relaxed whitespace-pre-line font-light"></p>
+                </div>
+            </section>
+        </div>
+
+        <!-- [VIEW B] แท็บ: สินค้า -->
+        <section id="view-products" class="hidden bg-white rounded-3xl p-4 sm:p-5 luxury-frame tab-panel-frame space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-pastel-purple/60">
+                <div>
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-pastel-pink/70 text-pastel-purpleDark text-[10px] font-semibold mb-1">Norivelle Boutique</span>
+                    <h2 class="text-base sm:text-lg font-extrabold text-pastel-text">รายการสินค้าทั้งหมด</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openManageCategoriesModal()" class="admin-only hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-pastel-purple text-pastel-purpleDark text-[11px] font-medium hover:bg-pastel-purpleDark hover:text-white transition">
+                        <i class="ph-bold ph-folders"></i> จัดการหมวดหมู่
+                    </button>
+                    <button onclick="openAddProductModal()" class="admin-only hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-pastel-purpleDark text-white text-[11px] font-medium shadow-xs">
+                        <i class="ph-bold ph-plus"></i> เพิ่มสินค้าใหม่
+                    </button>
+                    <button onclick="switchTab('home')" class="text-xs text-pastel-muted hover:text-pastel-purpleDark transition">
+                        ← กลับหน้าหลัก
+                    </button>
+                </div>
+            </div>
+
+            <!-- แถบตัวกรองหมวดหมู่ -->
+            <div id="category-filter-bar" class="flex items-center gap-1.5 overflow-x-auto pb-1">
+                <!-- Dynamic categories -->
+            </div>
+
+            <!-- ตารางการ์ดสินค้า -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Dynamic products -->
+            </div>
+        </section>
+
+        <!-- [VIEW C] แท็บ: เลือกของแต่ง -->
+        <section id="view-tracking" class="hidden bg-white rounded-3xl p-4 sm:p-5 luxury-frame tab-panel-frame space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-pastel-purple/60">
+                <div>
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-pastel-purple/80 text-pastel-purpleDark text-[10px] font-semibold mb-1">Decor & Accessories</span>
+                    <h2 class="text-base sm:text-lg font-extrabold text-pastel-text">เลือกของแต่งน่ารัก</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openAddDecorModal()" class="admin-only hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-pastel-purpleDark text-white text-[11px] font-medium shadow-xs">
+                        <i class="ph-bold ph-plus"></i> เพิ่มของแต่ง
+                    </button>
+                    <button onclick="switchTab('home')" class="text-xs text-pastel-muted hover:text-pastel-purpleDark transition">
+                        ← กลับหน้าหลัก
+                    </button>
+                </div>
+            </div>
+
+            <!-- การ์ดของแต่ง (รูป + ชื่อ + ปุ่มตัวอย่างเท่านั้น) -->
+            <div id="selector-product-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Dynamic decors -->
+            </div>
+        </section>
+
+        <!-- [VIEW D] แท็บ: ช่องทางการโอน -->
+        <section id="view-payment" class="hidden bg-white rounded-3xl p-4 sm:p-5 luxury-frame tab-panel-frame space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-pastel-purple/60">
+                <div>
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-pastel-pink/70 text-pastel-purpleDark text-[10px] font-semibold mb-1">Payment Info</span>
+                    <h2 class="text-base sm:text-lg font-extrabold text-pastel-text">ช่องทางการโอนเงิน</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openAddPaymentModal()" class="admin-only hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-pastel-purpleDark text-white text-[11px] font-medium shadow-xs">
+                        <i class="ph-bold ph-plus"></i> เพิ่มบัญชีรับโอน
+                    </button>
+                    <button onclick="switchTab('home')" class="text-xs text-pastel-muted hover:text-pastel-purpleDark transition">
+                        ← กลับหน้าหลัก
+                    </button>
+                </div>
+            </div>
+
+            <!-- รายการบัญชีธนาคาร -->
+            <div id="payment-list" class="space-y-2.5">
+                <!-- Dynamic bank accounts -->
+            </div>
+
+            <!-- กล่อง QR Code ตรงกลางตามจุดที่วงสีแดง -->
+            <div class="rounded-2xl bg-pastel-bg border border-pastel-purple p-4 text-center space-y-2.5">
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-white text-pastel-purpleDark text-[11px] font-semibold border border-pastel-purple">
+                    สแกน QR Code เพื่อชำระเงิน
+                </span>
+                <div class="w-40 h-40 mx-auto rounded-2xl bg-white border-2 border-pastel-purple p-2 shadow-xs flex items-center justify-center">
+                    <img src="https://placehold.co/300x300/FDF7FA/7C5295?text=QR+Demo" alt="QR Code Demo" class="w-full h-full object-contain rounded-xl">
+                </div>
+                <div class="space-y-1 max-w-sm mx-auto">
+                    <h3 class="text-sm font-bold text-pastel-text">ส่งสลิปยืนยันการโอนเงิน</h3>
+                    <p class="text-[11px] text-pastel-muted leading-relaxed">
+                        เมื่อโอนเงินเรียบร้อยแล้ว รบกวนลูกค้าส่งรูปสลิปที่เห็นวัน-เวลาและ QR Code ชัดเจน มาที่ช่องทางการติดต่อของร้านเพื่อล็อกคิวงานนะคะ
+                    </p>
+                </div>
+                <button onclick="switchTab('contact')" class="inline-flex items-center gap-1 text-xs font-semibold text-pastel-purpleDark hover:underline">
+                    <span>ไปยังหน้าช่องทางการติดต่อเพื่อส่งสลิป</span>
+                    <i class="ph-bold ph-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- [VIEW E] แท็บ: ช่องทางการติดต่อ -->
+        <section id="view-contact" class="hidden bg-white rounded-3xl p-4 sm:p-5 luxury-frame tab-panel-frame space-y-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-pastel-purple/60">
+                <div>
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-pastel-purple/80 text-pastel-purpleDark text-[10px] font-semibold mb-1">Contact & Socials</span>
+                    <h2 class="text-base sm:text-lg font-extrabold text-pastel-text">ช่องทางการติดต่อร้าน</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="openEditContactModal()" class="admin-only hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-pastel-purple text-pastel-purpleDark text-[11px] font-medium hover:bg-pastel-purpleDark hover:text-white transition">
+                        <i class="ph-bold ph-pencil-simple"></i> แก้ไขช่องทาง
+                    </button>
+                    <button onclick="switchTab('home')" class="text-xs text-pastel-muted hover:text-pastel-purpleDark transition">
+                        ← กลับหน้าหลัก
+                    </button>
+                </div>
+            </div>
+
+            <!-- ปุ่มโซเชียลเรียงแถวตรงลงมา -->
+            <div id="contact-list" class="flex flex-col gap-2.5">
+                <!-- Dynamic contacts -->
+            </div>
+
+            <!-- กล่องแสดงรายการที่คัดลอกไว้ล่าสุด (แสดงเมื่อลูกค้ากดคัดลอกส่งร้าน) -->
+            <div id="copied-order-preview" class="hidden rounded-2xl bg-pastel-bg border border-pastel-pinkDark/40 p-3.5 space-y-2">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="inline-flex items-center gap-1 text-xs font-bold text-pastel-purpleDark">
+                        <i class="ph-fill ph-check-circle text-pastel-pinkDark"></i> เตรียมข้อมูลรายการสินค้าเรียบร้อยแล้ว!
+                    </span>
+                    <button onclick="copyAgainLastOrder()" class="px-2.5 py-1 rounded-full bg-white border border-pastel-purple text-[11px] font-medium text-pastel-purpleDark hover:bg-pastel-pink/40 transition inline-flex items-center gap-1">
+                        <i class="ph-bold ph-copy"></i> คัดลอกอีกครั้ง
+                    </button>
+                </div>
+                <p class="text-[11px] text-pastel-muted">สามารถกดเข้า LINE / IG ด้านบน แล้วกด "วาง (Paste)" ส่งให้แอดมินได้เลยค่ะ</p>
+                <pre id="copied-order-text" class="text-[11px] font-body whitespace-pre-wrap bg-white p-3 rounded-xl border border-pastel-purple/60 text-pastel-text leading-relaxed"></pre>
+            </div>
+        </section>
+
+        <!-- FOOTER & ADMIN STATUS -->
+        <footer class="pt-3 pb-2 text-center space-y-1.5">
+            <div class="text-xs font-bold text-pastel-text">Norivelle Official Storefront</div>
+            <p class="text-[11px] text-pastel-muted">เว็บไซต์ตัวอย่าง (Demo) สำหรับทดสอบโครงสร้างและฟังก์ชันหน้าบ้าน-หลังบ้าน</p>
+            <div id="admin-footer-bar" class="admin-only hidden flex items-center justify-center gap-2 pt-1">
+                <span class="px-3 py-1 rounded-full bg-pastel-purpleDark text-white text-[11px] font-medium shadow-2xs inline-flex items-center gap-1">
+                    <i class="ph-fill ph-crown-simple text-xs"></i> โหมดแอดมินเปิดอยู่ (กดตรงโลโก้เพื่อออก)
+                </span>
+                <button onclick="resetDemoData()" title="รีเซ็ตข้อมูลเริ่มต้น" class="w-7 h-7 rounded-full bg-white border border-pastel-purple text-pastel-muted hover:text-pastel-purpleDark flex items-center justify-center shadow-2xs transition">
+                    <i class="ph-bold ph-arrow-counter-clockwise text-xs"></i>
+                </button>
+            </div>
+        </footer>
+    </main>
+
+    <!-- =================================================================
+         FLOATING PNG CARROT BUTTON (คงตำแหน่งเดิม)
+         ================================================================= -->
+    <div id="floating-carrot-widget" class="fixed right-2.5 sm:right-5 top-[42%] -translate-y-1/2 z-40 flex flex-col items-center">
+        <button onclick="handleMascotClick(event)" onmouseenter="burstMascotSparkles(this)" class="group relative flex flex-col items-center focus:outline-none">
+            <!-- กล่องข้อความคำพูด (Speech Bubble) -->
+            <div class="bubble-float relative mb-2 px-3 py-1.5 rounded-2xl bg-white/95 backdrop-blur-md border-2 border-pastel-pinkDark/40 shadow-soft text-center transition-transform duration-200 group-hover:-translate-y-1">
+                <span id="carrot-status-text" class="block text-[11px] sm:text-xs font-bold text-pastel-purpleDark whitespace-nowrap">
+                    อยากหม่ำแครอทค้าบ🥕
+                </span>
+                <span class="block text-[9px] text-pastel-muted">กดที่น้องเพื่อดูสรุป</span>
+                <!-- หางกล่องข้อความชี้ลงมาหาตัวน้อง -->
+                <div class="w-2.5 h-2.5 bg-white border-r-2 border-b-2 border-pastel-pinkDark/40 rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2"></div>
+            </div>
+
+            <!-- รูป PNG โปร่งใสแบบต้นฉบับ ขนาดพอดีเห็นชัด + ลอยดุ๊กดิ๊ก -->
+            <div id="carrot-mascot-wrap" class="mascot-float relative w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center bg-transparent transition-transform duration-300 group-hover:scale-110 active:scale-90">
+                <img id="carrot-mascot-img"
+                     src="https://i.postimg.cc/CMDFCWq1/mi-m-ch-x-55-20261109015733.png"
+                     alt="Carrot Basket Mascot"
+                     onerror="this.src='https://placehold.co/160x160/FCE4F0/7C5295?text=Carrot'"
+                     class="w-full h-full object-contain bg-transparent drop-shadow-[0_6px_14px_rgba(217,114,166,0.3)]">
+                <span id="carrot-count-badge" class="hidden absolute top-0 right-0 min-w-[22px] h-5.5 px-1.5 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-[11px] font-bold flex items-center justify-center border-2 border-white shadow-sm animate-bounce">
+                    0
+                </span>
+            </div>
+        </button>
+        <!-- ปุ่มลัดสำหรับแอดมินเปลี่ยนรูป PNG ตะกร้าแครอทได้โดยตรง -->
+        <button onclick="openHeaderModal()" class="admin-only hidden mt-1 px-2.5 py-0.5 rounded-full bg-white/95 border border-pastel-purple text-[10px] font-medium text-pastel-purpleDark shadow-xs hover:bg-pastel-purpleDark hover:text-white transition">
+            <i class="ph-fill ph-pencil-simple"></i> เปลี่ยน PNG
+        </button>
+    </div>
+
+    <!-- Audio Element สำหรับเล่นไฟล์เพลงจาก URL (ถ้าแอดมินใส่ลิงก์เพลงไว้) -->
+    <audio id="bgm-audio-player" loop preload="auto" playsinline></audio>
+
+    <!-- =================================================================
+         MODAL SYSTEM (สำหรับแอดมินแก้ไขข้อมูล & เพิ่มรายการต่างๆ)
+         ================================================================= -->
+    <div id="modal-backdrop" class="fixed inset-0 z-50 hidden bg-pastel-text/40 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-soft border-2 border-pastel-purple animate-[fadeIn_0.2s_ease-out] max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-pastel-purple/40">
+                <h3 id="modal-title" class="text-lg font-bold text-pastel-text">แก้ไขข้อมูล</h3>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-pastel-bg text-pastel-muted hover:text-pastel-text flex items-center justify-center">
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+            <div id="modal-body">
+                <!-- Dynamic Form Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cute Center Popup Notification (ป๊อปอัพแจ้งเตือนกลางจอน่ารักๆ แทนแถบมุมขวาล่างเดิม) -->
+    <div id="toast" onclick="hideToastPopup()" class="fixed inset-0 z-50 hidden bg-pastel-text/25 backdrop-blur-[2px] flex items-center justify-center p-4">
+        <div onclick="event.stopPropagation()" class="bg-white border-2 border-pastel-pinkDark/40 rounded-3xl p-5 max-w-xs w-full shadow-soft text-center space-y-3 transform transition-all duration-200 scale-100">
+            <div class="w-12 h-12 mx-auto rounded-full bg-gradient-to-tr from-pastel-pink to-pastel-purple text-pastel-purpleDark flex items-center justify-center shadow-xs border-2 border-white">
+                <i class="ph-fill ph-sparkle text-2xl text-pastel-pinkDark"></i>
+            </div>
+            <div class="space-y-1">
+                <p class="text-[11px] font-bold text-pastel-pinkDark tracking-wide uppercase">Norivelle Notice ✨</p>
+                <p id="toast-msg" class="text-xs sm:text-sm font-semibold text-pastel-text leading-relaxed">บันทึกสำเร็จ</p>
+            </div>
+            <button onclick="hideToastPopup()" class="px-6 py-1.5 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-xs font-medium shadow-xs hover:opacity-90 transition">
+                รับทราบค่ะ 🌸
+            </button>
+        </div>
+    </div>
+
+    <!-- =================================================================
+         JAVASCRIPT LOGIC (จัดการข้อมูล, สลับแท็บ, และโหมดแอดมิน)
+         ================================================================= -->
+    <script>
+        const STORAGE_KEY = 'norivelle_demo_state_v3';
+        let lastCopiedOrderText = '';
+
+        // ข้อมูลเริ่มต้นของเว็บ Norivelle
+        const defaultData = {
+            header: {
+                logo: 'https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png',
+                vinylPng: 'https://i.postimg.cc/jjnWRVVG/mi-m-ch-x-55-20261107021652.png',
+                mascotPng: 'https://i.postimg.cc/CMDFCWq1/mi-m-ch-x-55-20261109015733.png',
+                bgmUrl: '',
+                badge: 'Web & Banner Design Studio',
+                name: 'Norivelle',
+                desc: 'สตูดิโอรับทำเว็บไซต์หน้าร้าน มินิมอลน่ารัก และรับออกแบบป้ายทุกชนิด (ป้ายบัญชี ป้ายโปรโมท ป้ายเมนู ป้ายสแตนดี้) ดูแลครบจบในที่เดียวค่ะ 🌸'
+            },
+            marquee: '🎀 ยินดีต้อนรับสู่ร้าน Norivelle! รับทำเว็บไซต์หน้าร้าน & ออกแบบป้ายทุกสไตล์ ✨ เลือกแพ็กเกจและของตกแต่งที่ชอบแล้วป้อนแครอทส่งให้แอดมินได้เลยน้า 💜',
+            box1: {
+                title: 'กฎของร้าน & เงื่อนไขการสั่งทำเว็บ / ออกแบบป้าย',
+                content: '📌 กฎและเงื่อนไขการสั่งทำเว็บ & ออกแบบป้าย Norivelle\n1. แจ้งรายละเอียดบรีฟ โทนสี ข้อความ และส่งรูปภาพ/โลโก้ให้ครบถ้วนก่อนเริ่มงาน\n2. ชำระมัดจำ 50% หรือยอดเต็มเพื่อล็อกคิวงาน (หากยกเลิกกลางคันขออนุญาตไม่คืนมัดจำทุกกรณี)\n3. แก้ไขงานฟรี 2-3 ครั้งตามขอบเขตบรีฟเดิม (หากเปลี่ยนโทนสีหรือรื้อโครงใหม่ทั้งหมดจะมีค่าบริการเพิ่มเติม)\n4. ไม่อนุญาตให้นำไฟล์ต้นฉบับหรือเทมเพลตเว็บของร้านไปดัดแปลงขายต่อหรือแจกจ่ายต่อ\n5. ส่งมอบงานเป็นลิงก์เว็บไซต์พร้อมใช้งาน / ไฟล์ภาพความละเอียดสูง (PNG / JPG / PDF)'
+            },
+            box2: {
+                title: 'รายละเอียดเพิ่มเติม & ขั้นตอนส่งงาน',
+                subtitle: 'ระยะเวลาทำเว็บ งานออกแบบป้าย และไฟล์ที่จะได้รับ',
+                content: '🌸 รายละเอียดการรับทำเว็บไซต์ & ออกแบบป้าย\n• เวลาทำการตอบแชท & รับบรีฟ: ทุกวัน 10:00 - 22:00 น.\n• งานออกแบบป้าย (ป้ายบัญชี / ป้ายโปรโมท / ป้ายร้าน): ใช้เวลา 1 - 2 วัน หลังรับบรีฟและโอนจองคิว\n• งานทำเว็บไซต์หน้าร้าน / เว็บรวมลิงก์: ใช้เวลา 2 - 5 วัน ขึ้นอยู่กับจำนวนหน้าและฟังก์ชัน\n• สิ่งที่ลูกค้าจะได้รับ (งานป้าย): ไฟล์ภาพคมชัดสูง PNG / JPG พร้อมใช้งานทันที\n• สิ่งที่ลูกค้าจะได้รับ (งานเว็บ): ลิงก์เว็บไซต์ออนไลน์ + ไฟล์โค้ด + คู่มือแก้ไขข้อมูลเบื้องต้น\n• มีบริการคิวด่วน (Fast Track) ส่งงานภายใน 24 ชม. สอบถามคิวว่างทางแชทได้เลยค่ะ 💜'
+            },
+            showcases: [
+                {
+                    id: 1,
+                    title: 'เซ็ตพวงกุญแจอะคริลิคพาสเทล (ตัวอย่างงานจริง)',
+                    tag: 'ตัวอย่างงาน',
+                    image: 'https://placehold.co/600x400/FFD6EC/5A4A6A?text=Norivelle+Demo+Work+01',
+                    desc: 'งานสั่งทำพวงกุญแจเคลือบกากเพชรใส สีหวานคมชัด พร้อมโซ่ไข่ปลาสีพาสเทล'
+                },
+                {
+                    id: 2,
+                    title: 'เซ็ตสติกเกอร์ไดคัท & การ์ดตกแต่งโต๊ะ',
+                    tag: 'รีวิวสินค้า',
+                    image: 'https://placehold.co/600x400/E8D5FF/5A4A6A?text=Norivelle+Demo+Work+02',
+                    desc: 'เนื้อกระดาษกันน้ำ เคลือบด้าน สัมผัสนุ่ม ติดเคสหรือไอแพดได้ไม่ทิ้งคราบกาว'
+                }
+            ],
+            categories: ['ทำเว็บไซต์', 'ออกแบบป้าย', 'แพ็กเกจเซ็ต'],
+            products: [
+                {
+                    id: 101,
+                    name: 'เว็บไซต์หน้าร้านมินิมอล (Single Page)',
+                    category: 'ทำเว็บไซต์',
+                    tag: 'ขายดี ✨',
+                    price: 490,
+                    status: 'ว่างรับคิว',
+                    image: 'https://placehold.co/500x400/FFD6EC/5A4A6A?text=Web+Design+01',
+                    previewUrl: 'https://placehold.co/800x600/FFD6EC/5A4A6A?text=Preview+Web+01',
+                    desc: 'เว็บหน้าร้านรวมลิงก์ กฎร้าน ช่องทางโอน พร้อมปุ่มกดคัดลอกสั่งซื้อ'
+                },
+                {
+                    id: 102,
+                    name: 'ออกแบบป้ายบัญชี / ป้าย QR Code ร้านค้า',
+                    category: 'ออกแบบป้าย',
+                    tag: 'มาใหม่ 🎀',
+                    price: 150,
+                    status: 'ว่างรับคิว',
+                    image: 'https://placehold.co/500x400/E8D5FF/5A4A6A?text=Banner+QR+02',
+                    previewUrl: 'https://placehold.co/800x600/E8D5FF/5A4A6A?text=Preview+Banner+02',
+                    desc: 'ออกแบบป้ายเลขบัญชีพร้อมใส่มาสคอตและโทนสีประจำร้าน คมชัดระดับ HD'
+                },
+                {
+                    id: 103,
+                    name: 'ออกแบบป้ายโปรโมทสินค้า / ป้ายเรทราคา',
+                    category: 'ออกแบบป้าย',
+                    tag: 'ยอดนิยม 🌸',
+                    price: 220,
+                    status: 'ว่างรับคิว',
+                    image: 'https://placehold.co/500x400/F5E6FF/5A4A6A?text=Promo+Banner+03',
+                    previewUrl: 'https://placehold.co/800x600/F5E6FF/5A4A6A?text=Preview+Promo+03',
+                    desc: 'ป้ายโปรโมทโพสต์ IG / Facebook จัดวางองค์ประกอบน่ารักอ่านง่ายสะดุดตา'
+                },
+                {
+                    id: 104,
+                    name: 'เซ็ตเปิดร้านครบวงจร (เว็บไซต์ + ป้าย 3 ใบ)',
+                    category: 'แพ็กเกจเซ็ต',
+                    tag: 'สุดคุ้ม 💜',
+                    price: 790,
+                    status: 'ว่างรับคิว',
+                    image: 'https://placehold.co/500x400/FFE4F2/5A4A6A?text=Full+Set+04',
+                    previewUrl: 'https://placehold.co/800x600/FFE4F2/5A4A6A?text=Preview+Set+04',
+                    desc: 'ได้ทั้งเว็บไซต์หน้าร้าน + ป้ายโลโก้ + ป้ายบัญชี + ป้ายโปรโมท คุมโทนเดียวกัน'
+                }
+            ],
+            decors: [
+                {
+                    id: 501,
+                    name: 'โซ่ไข่ปลาสีชมพูพาสเทล',
+                    image: 'https://placehold.co/500x400/FCE4F0/7C5295?text=Decor+Demo+01',
+                    desc: 'อะไหล่โซ่ไข่ปลาเคลือบสีพาสเทลสำหรับห้อยพวงกุญแจ'
+                },
+                {
+                    id: 502,
+                    name: 'จี้ดาวกากเพชรสีม่วงลาเวนเดอร์',
+                    image: 'https://placehold.co/500x400/EFE6FA/7C5295?text=Decor+Demo+02',
+                    desc: 'จี้ตกแต่งอะคริลิคใสกากเพชรรูปดาวสุดน่ารัก'
+                },
+                {
+                    id: 503,
+                    name: 'โบว์ริบบิ้นซาตินชมพูอ่อน',
+                    image: 'https://placehold.co/500x400/FFD6EC/7C5295?text=Decor+Demo+03',
+                    desc: 'โบว์ตกแต่งเพิ่มความหวานให้กับชิ้นงานสั่งทำ'
+                },
+                {
+                    id: 504,
+                    name: 'ตะขอรูปหัวใจสีโรสโกลด์',
+                    image: 'https://placehold.co/500x400/F5E6FF/7C5295?text=Decor+Demo+04',
+                    desc: 'ตะขอก้ามปูรูปหัวใจแข็งแรงทนทาน สีสวยหรู'
+                }
+            ],
+            payments: [
+                {
+                    id: 201,
+                    bank: 'ธนาคารกสิกรไทย (KBank)',
+                    accNumber: '123-4-56789-0',
+                    accName: 'นอริเวลล์ สตูดิโอ (Demo)',
+                    color: 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                },
+                {
+                    id: 202,
+                    bank: 'พร้อมเพย์ (PromptPay / TrueMoney)',
+                    accNumber: '089-123-4567',
+                    accName: 'นอริเวลล์ สตูดิโอ (Demo)',
+                    color: 'bg-pastel-purple/30 border-pastel-purple text-pastel-text'
+                }
+            ],
+            trackings: [
+                { id: 301, customer: 'คุณพลอยใส (Ploysai)', item: 'Pastel Bear Keyring x2', carrier: 'Flash Express', trackNo: 'TH0192837465A', date: '08/11/2026', status: 'จัดส่งแล้ว' },
+                { id: 302, customer: 'คุณมินตรา (Mintra)', item: 'Custom Name Tag', carrier: 'Kerry Express', trackNo: 'SDOF99881122', date: '08/11/2026', status: 'จัดส่งแล้ว' },
+                { id: 303, customer: 'คุณณิชา (Nicha)', item: 'Dreamy Sticker Pack', carrier: 'กำลังแพ็คสินค้า', trackNo: 'รออัปเดตเลขพัสดุรอบเย็น', date: '08/11/2026', status: 'กำลังเตรียมจัดส่ง' }
+            ],
+            contacts: [
+                { id: 401, platform: 'LINE Official', handle: '@norivelle.shop (Demo)', url: 'https://line.me', icon: 'ph-chat-circle-dots', note: 'ตอบไวที่สุด แนะนำสำหรับแจ้งโอนและส่งบรีฟงาน' },
+                { id: 402, platform: 'Instagram', handle: 'norivelle.official', url: 'https://instagram.com', icon: 'ph-instagram-logo', note: 'อัปเดตสต็อกและลงรูปตัวอย่างงานใหม่ทุกสัปดาห์' },
+                { id: 403, platform: 'Facebook Page', handle: 'Norivelle ร้านรวมของน่ารัก', url: 'https://facebook.com', icon: 'ph-facebook-logo', note: 'สอบถามข้อมูลทั่วไปและดูรีวิวลูกค้า' },
+                { id: 404, platform: 'X (Twitter)', handle: '@norivelle_th', url: 'https://x.com', icon: 'ph-twitter-logo', note: 'อัปเดตคิวงานด่วนและโปรโมชั่นประจำเดือน' }
+            ]
+        };
+
+        let appData = loadData();
+        let isAdmin = false;
+        let currentTab = 'home';
+        let currentCategory = 'all';
+        let selectedQtyMap = {}; // เก็บจำนวนสินค้าที่เลือกในแท็บ "เลือกสินค้า"
+
+        function loadData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                const parsed = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(defaultData));
+                if (!parsed.header) parsed.header = JSON.parse(JSON.stringify(defaultData.header));
+                if (!parsed.header.vinylPng) parsed.header.vinylPng = parsed.header.logo || defaultData.header.vinylPng;
+                if (!parsed.header.mascotPng) parsed.header.mascotPng = defaultData.header.mascotPng;
+                if (typeof parsed.header.bgmUrl === 'undefined') parsed.header.bgmUrl = '';
+                if (!parsed.decors) parsed.decors = JSON.parse(JSON.stringify(defaultData.decors));
+                if (!Array.isArray(parsed.categories) || parsed.categories.length === 0) {
+                    parsed.categories = JSON.parse(JSON.stringify(defaultData.categories));
+                }
+                return parsed;
+            } catch (e) {
+                return JSON.parse(JSON.stringify(defaultData));
+            }
+        }
+
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+            } catch (e) {
+                console.warn('LocalStorage not available');
+            }
+        }
+
+        function resetDemoData() {
+            appData = JSON.parse(JSON.stringify(defaultData));
+            currentCategory = 'all';
+            saveData();
+            renderAll();
+            showToast('รีเซ็ตข้อมูลกลับเป็นค่าเริ่มต้นเรียบร้อย');
+        }
+
+        // สลับหน้าแท็บ (หน้าหลักตามแบบร่าง vs หน้าแท็บทั้ง 4)
+        function switchTab(tabName) {
+            currentTab = tabName;
+            const views = ['home', 'products', 'payment', 'tracking', 'contact'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.toggle('hidden', v !== tabName);
+            });
+
+            // อัปเดตสถานะปุ่มแท็บทั้ง 4 ปุ่ม
+            ['products', 'payment', 'tracking', 'contact'].forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (!btn) return;
+                const icon = btn.querySelector('i');
+                if (t === tabName) {
+                    btn.classList.add('active');
+                    if (icon) icon.classList.remove('text-pastel-purpleDark');
+                } else {
+                    btn.classList.remove('active');
+                    if (icon) icon.classList.add('text-pastel-purpleDark');
+                }
+            });
+        }
+
+        // กดตรงโลโก้เพื่อเข้า/ออกระบบหลังบ้าน (โหมดแอดมิน)
+        function handleLogoAdminAccess(e) {
+            if (e) e.stopPropagation();
+            toggleAdminMode();
+        }
+
+        // เปิด-ปิด โหมดแอดมิน
+        function toggleAdminMode() {
+            isAdmin = !isAdmin;
+            const logoBadge = document.getElementById('logo-admin-badge');
+            const logoIcon = document.getElementById('logo-admin-icon');
+
+            if (isAdmin) {
+                if (logoBadge) {
+                    logoBadge.classList.remove('bg-pastel-purpleDark');
+                    logoBadge.classList.add('bg-pastel-pinkDark');
+                }
+                if (logoIcon) logoIcon.className = 'ph-fill ph-crown-simple text-xs';
+                showToast('เข้าสู่ระบบหลังบ้าน (โหมดแอดมิน) แล้วค่ะ สามารถกดปุ่มแก้ไขหรือเพิ่มข้อมูลได้ทันที ✨');
+            } else {
+                if (logoBadge) {
+                    logoBadge.classList.remove('bg-pastel-pinkDark');
+                    logoBadge.classList.add('bg-pastel-purpleDark');
+                }
+                if (logoIcon) logoIcon.className = 'ph-fill ph-sparkle text-xs';
+                showToast('ออกจากระบบหลังบ้าน กลับสู่มุมมองลูกค้าแล้วค่ะ 🌸');
+            }
+
+            document.querySelectorAll('.admin-only').forEach(el => {
+                el.classList.toggle('hidden', !isAdmin);
+            });
+            renderAll();
+        }
+
+        // แสดงผลทุกส่วนจาก State
+        function renderAll() {
+            // 1. Header & รูป PNG ทุกจุด
+            document.getElementById('store-logo').src = appData.header.logo;
+            document.getElementById('store-badge').textContent = appData.header.badge;
+            document.getElementById('store-name').textContent = appData.header.name;
+            document.getElementById('store-desc').textContent = appData.header.desc;
+
+            const vinylImg = document.getElementById('vinyl-disc-img');
+            if (vinylImg) vinylImg.src = appData.header.vinylPng || appData.header.logo;
+
+            const mascotImg = document.getElementById('carrot-mascot-img');
+            if (mascotImg) mascotImg.src = appData.header.mascotPng || defaultData.header.mascotPng;
+
+            // อัปเดตชื่อและโลโก้ปัจจุบันสำหรับแชร์ลิงก์ & Add to Home Screen แบบแอปมือถือ
+            syncAppShareMetadata();
+
+            // 2. Marquee
+            document.getElementById('marquee-content').textContent = appData.marquee;
+
+            // 3. Box 1 & Box 2 (กฎของร้าน & รายละเอียดเพิ่มเติม)
+            const elBox1Title = document.getElementById('box1-title');
+            const elBox1Content = document.getElementById('box1-content');
+            const elBox2Title = document.getElementById('box2-title');
+            const elBox2Subtitle = document.getElementById('box2-subtitle');
+            const elBox2Content = document.getElementById('box2-content');
+
+            if (elBox1Title) elBox1Title.textContent = appData.box1.title;
+            if (elBox1Content) elBox1Content.textContent = appData.box1.content;
+            if (elBox2Title) elBox2Title.textContent = appData.box2.title;
+            if (elBox2Subtitle) elBox2Subtitle.textContent = appData.box2.subtitle;
+            if (elBox2Content) elBox2Content.textContent = appData.box2.content;
+
+            // 5. Tabs Content
+            renderCategoryFilterBar();
+            renderProducts();
+            renderProductSelector();
+            renderPayments();
+            renderContacts();
+            updateCarrotWidgetUI();
+
+            // ซ่อน/แสดงปุ่มแอดมินที่เพิ่งถูกสร้างใหม่
+            document.querySelectorAll('.admin-only').forEach(el => {
+                el.classList.toggle('hidden', !isAdmin);
+            });
+        }
+
+        function renderShowcases() {
+            const container = document.getElementById('showcase-grid');
+            if (!container) return;
+            container.innerHTML = appData.showcases.map(item => `
+                <article class="group rounded-2xl bg-white border border-[#EBE5E0] p-2 shadow-xs hover:shadow-soft transition flex flex-col">
+                    <div class="relative aspect-video bg-pastel-bg rounded-xl overflow-hidden">
+                        <img src="${item.image}" alt="${item.title}" 
+                             onerror="this.src='https://placehold.co/600x400/FDE8E4/1E1917?text=Demo+Image'"
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/25 backdrop-blur-xs text-white flex items-center justify-center">
+                            <i class="ph-fill ph-bookmark-simple text-pastel-pink text-sm"></i>
+                        </span>
+                        <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-white/95 text-pastel-text shadow-xs">
+                            ${item.tag}
+                        </span>
+                        <button onclick="deleteShowcase(${item.id})" class="admin-only ${isAdmin ? '' : 'hidden'} absolute bottom-2 right-2 w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-sm hover:bg-rose-600" title="ลบตัวอย่างงาน">
+                            <i class="ph-bold ph-trash text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="px-2 pt-2.5 pb-1.5 flex-1 flex flex-col justify-between space-y-1">
+                        <div>
+                            <div class="flex items-center justify-between gap-1">
+                                <h3 class="font-bold text-pastel-text text-sm truncate">${item.title}</h3>
+                                <i class="ph-bold ph-dots-three text-pastel-muted"></i>
+                            </div>
+                            <p class="text-[11px] text-pastel-muted mt-0.5 leading-relaxed font-normal">${item.desc}</p>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function renderCategoryFilterBar() {
+            const bar = document.getElementById('category-filter-bar');
+            if (!bar) return;
+            const cats = appData.categories || [];
+            if (currentCategory !== 'all' && !cats.includes(currentCategory)) {
+                currentCategory = 'all';
+            }
+
+            const allBtnClass = currentCategory === 'all'
+                ? 'cat-pill px-3.5 py-1 rounded-full text-xs font-medium bg-pastel-purpleDark text-white transition shrink-0'
+                : 'cat-pill px-3.5 py-1 rounded-full text-xs font-medium bg-white text-pastel-text border border-[#EBE5E0] hover:bg-pastel-purple transition shrink-0';
+
+            const catBtns = cats.map(c => {
+                const isActive = currentCategory === c;
+                const cls = isActive
+                    ? 'cat-pill px-3.5 py-1 rounded-full text-xs font-medium bg-pastel-purpleDark text-white transition shrink-0'
+                    : 'cat-pill px-3.5 py-1 rounded-full text-xs font-medium bg-white text-pastel-text border border-[#EBE5E0] hover:bg-pastel-purple transition shrink-0';
+                const safeCat = c.replace(/'/g, "\\'");
+                return `<button onclick="filterProducts('${safeCat}')" data-cat="${c}" class="${cls}">${c}</button>`;
+            }).join('');
+
+            bar.innerHTML = `<button onclick="filterProducts('all')" data-cat="all" class="${allBtnClass}">ทั้งหมด</button>${catBtns}`;
+        }
+
+        function filterProducts(cat) {
+            currentCategory = cat;
+            renderCategoryFilterBar();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products-grid');
+            const filtered = currentCategory === 'all' 
+                ? appData.products 
+                : appData.products.filter(p => p.category === currentCategory);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-6 text-xs text-pastel-muted">ยังไม่มีสินค้าในหมวดหมู่นี้ค่ะ</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(prod => `
+                <div class="rounded-2xl bg-white border border-pastel-purple p-2 shadow-xs hover:shadow-soft flex flex-col justify-between transition">
+                    <div>
+                        <div class="relative aspect-[5/4] bg-pastel-bg rounded-xl overflow-hidden">
+                            <img src="${prod.image}" alt="${prod.name}" 
+                                 onerror="this.src='https://placehold.co/500x400/FCE4F0/7C5295?text=Demo+Product'"
+                                 class="w-full h-full object-cover">
+                            <!-- ป้ายแท็กสินค้า -->
+                            <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/95 text-pastel-purpleDark border border-pastel-purple shadow-2xs">
+                                ${prod.tag || prod.category}
+                            </span>
+                            <span class="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/80 backdrop-blur-xs text-pastel-pinkDark flex items-center justify-center shadow-2xs">
+                                <i class="ph-fill ph-bookmark-simple text-sm"></i>
+                            </span>
+                            <button onclick="deleteProduct(${prod.id})" class="admin-only ${isAdmin ? '' : 'hidden'} absolute bottom-2.5 right-2.5 w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-sm">
+                                <i class="ph-bold ph-trash text-xs"></i>
+                            </button>
+                        </div>
+                        <div class="px-2 pt-2.5 pb-1">
+                            <div class="flex items-center justify-between gap-1">
+                                <h3 class="font-bold text-pastel-text text-sm truncate">${prod.name}</h3>
+                                <i class="ph-bold ph-dots-three text-pastel-muted shrink-0"></i>
+                            </div>
+                            <div class="mt-1 flex flex-wrap items-center gap-1">
+                                <span class="px-2 py-0.5 rounded-full bg-pastel-pink/60 text-pastel-purpleDark text-[10px] font-medium">${prod.category}</span>
+                                ${prod.tag ? `<span class="px-2 py-0.5 rounded-full bg-pastel-purple/60 text-pastel-purpleDark text-[10px] font-medium">${prod.tag}</span>` : ''}
+                            </div>
+                            <p class="text-[11px] text-pastel-muted mt-1.5 leading-relaxed font-normal line-clamp-2">${prod.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-2 pb-1.5 pt-2.5 mt-1.5 border-t border-pastel-purple/50 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] text-pastel-muted">ราคา</span>
+                            <div class="flex items-center gap-1 text-sm font-bold text-pastel-purpleDark">
+                                <i class="ph-fill ph-tag text-pastel-pinkDark font-normal"></i>
+                                <span>฿${prod.price}</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5 pt-0.5">
+                            <button onclick="openProductPreviewModal(${prod.id})" class="w-full inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-full bg-pastel-bg text-pastel-purpleDark border border-pastel-purple text-[11px] font-medium hover:bg-pastel-purple/50 transition">
+                                <i class="ph-bold ph-eye"></i> ตัวอย่าง
+                            </button>
+                            <button onclick="feedCarrot(${prod.id})" class="w-full inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-[11px] font-medium shadow-xs hover:opacity-90 active:scale-95 transition">
+                                <i class="ph-bold ph-shopping-basket text-xs"></i> ป้อนแครอท
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ฟังก์ชันกดปุ่ม "ป้อนแครอท" ในการ์ดสินค้า
+        function feedCarrot(prodId) {
+            const prod = appData.products.find(p => p.id === prodId);
+            if (!prod) return;
+
+            selectedQtyMap[prodId] = (selectedQtyMap[prodId] || 0) + 1;
+            updateCarrotWidgetUI(true);
+            showToast(`ป้อนแครอท "${prod.name}" แล้ว 🥕`);
+        }
+
+        // คำนวณจำนวนแครอททั้งหมดที่ถูกป้อน
+        function getTotalCarrotCount() {
+            return Object.values(selectedQtyMap).reduce((sum, qty) => sum + (qty || 0), 0);
+        }
+
+        // อัปเดตข้อความและตัวเลขบนปุ่ม PNG ลอย
+        function updateCarrotWidgetUI(animate = false) {
+            const total = getTotalCarrotCount();
+            const statusText = document.getElementById('carrot-status-text');
+            const badge = document.getElementById('carrot-count-badge');
+            const mascotWrap = document.getElementById('carrot-mascot-wrap');
+
+            if (statusText) {
+                statusText.textContent = total === 0
+                    ? 'อยากหม่ำแครอทค้าบ🥕'
+                    : `หม่ำแครอทแล้ว ${total} 🥕`;
+            }
+            if (badge) {
+                badge.textContent = total;
+                badge.classList.toggle('hidden', total === 0);
+            }
+            if (animate && mascotWrap) {
+                mascotWrap.classList.add('scale-125', '-rotate-12');
+                setTimeout(() => {
+                    mascotWrap.classList.remove('scale-125', '-rotate-12');
+                }, 250);
+            }
+        }
+
+        // ปรับเพิ่ม/ลดจำนวนสินค้าในป๊อปอัพสรุปรายการแครอท
+        function changeCarrotQty(prodId, delta) {
+            const next = (selectedQtyMap[prodId] || 0) + delta;
+            if (next <= 0) {
+                delete selectedQtyMap[prodId];
+            } else {
+                selectedQtyMap[prodId] = next;
+            }
+            updateCarrotWidgetUI();
+            openCarrotCartModal();
+        }
+
+        function clearCarrotCart() {
+            selectedQtyMap = {};
+            updateCarrotWidgetUI();
+            openCarrotCartModal();
+            showToast('ล้างรายการแครอทเรียบร้อยแล้วค่ะ');
+        }
+
+        // เปิดป๊อปอัพสรุปรายการและยอดรวมเมื่อกดที่ปุ่ม PNG ลอย
+        function openCarrotCartModal() {
+            const selectedItems = appData.products
+                .filter(p => (selectedQtyMap[p.id] || 0) > 0)
+                .map(p => ({ ...p, qty: selectedQtyMap[p.id], subtotal: p.price * selectedQtyMap[p.id] }));
+
+            const totalQty = selectedItems.reduce((s, i) => s + i.qty, 0);
+            const totalPrice = selectedItems.reduce((s, i) => s + i.subtotal, 0);
+
+            if (selectedItems.length === 0) {
+                const currentMascotImg = (appData.header && appData.header.mascotPng) ? appData.header.mascotPng : defaultData.header.mascotPng;
+                openModal('ตะกร้าแครอทของน้อง 🥕', `
+                    <div class="text-center py-6 space-y-3">
+                        <img src="${currentMascotImg}" alt="Carrot Mascot" class="w-20 h-20 mx-auto object-contain">
+                        <div class="space-y-1">
+                            <p class="text-sm font-bold text-pastel-purpleDark">อยากหม่ำแครอทค้าบ🥕</p>
+                            <p class="text-xs text-pastel-muted">ยังไม่มีสินค้าในตะกร้าเลย กดปุ่ม "ป้อนแครอท" ที่การ์ดสินค้าได้เลยนะคะ</p>
+                        </div>
+                        <button onclick="closeModal(); switchTab('products');" class="px-4 py-2 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-xs font-medium shadow-xs">
+                            ไปหน้าสินค้าเพื่อป้อนแครอท
+                        </button>
+                    </div>
+                `);
+                return;
+            }
+
+            const itemsHtml = selectedItems.map(item => `
+                <div class="flex items-center justify-between gap-2 p-2.5 rounded-2xl bg-pastel-bg border border-pastel-purple/70">
+                    <div class="min-w-0 flex-1">
+                        <div class="text-xs font-bold text-pastel-text truncate">${item.name}</div>
+                        <div class="text-[11px] text-pastel-muted">฿${item.price} x ${item.qty} = <strong class="text-pastel-purpleDark">฿${item.subtotal}</strong></div>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="changeCarrotQty(${item.id}, -1)" class="w-6 h-6 rounded-full bg-white border border-pastel-purple text-pastel-purpleDark flex items-center justify-center text-xs font-bold hover:bg-pastel-pink transition">-</button>
+                        <span class="text-xs font-bold w-5 text-center">${item.qty}</span>
+                        <button onclick="changeCarrotQty(${item.id}, 1)" class="w-6 h-6 rounded-full bg-white border border-pastel-purple text-pastel-purpleDark flex items-center justify-center text-xs font-bold hover:bg-pastel-pink transition">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            openModal(`หม่ำแครอทแล้ว ${totalQty} 🥕 (สรุปรายการ)`, `
+                <div class="space-y-3 text-xs">
+                    <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                        ${itemsHtml}
+                    </div>
+                    <div class="rounded-2xl bg-gradient-to-r from-pastel-pink/60 to-pastel-purple/60 p-3.5 border border-pastel-purple flex items-center justify-between">
+                        <div>
+                            <div class="text-[11px] text-pastel-muted">รวมทั้งหมด ${totalQty} ชิ้น</div>
+                            <div class="text-sm font-bold text-pastel-text">ยอดรวมสุทธิ</div>
+                        </div>
+                        <div class="text-lg font-extrabold text-pastel-purpleDark">฿${totalPrice.toLocaleString()}</div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-1">
+                        <button onclick="clearCarrotCart()" class="px-3 py-2.5 rounded-full bg-pastel-bg text-pastel-muted hover:text-rose-500 border border-pastel-purple text-xs font-medium transition">
+                            ล้างตะกร้า
+                        </button>
+                        <button onclick="copyCarrotOrderSummary()" class="flex-1 py-2.5 px-4 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white font-medium text-xs shadow-xs hover:opacity-95 transition inline-flex items-center justify-center gap-1.5">
+                            <i class="ph-bold ph-copy text-sm"></i> คัดลอกรายการส่งทางร้าน
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        // คัดลอกสรุปรายการจากปุ่ม PNG ลอยแล้วพาไปหน้าติดต่อร้าน
+        function copyCarrotOrderSummary() {
+            const selectedItems = appData.products
+                .filter(p => (selectedQtyMap[p.id] || 0) > 0)
+                .map(p => ({ ...p, qty: selectedQtyMap[p.id], subtotal: p.price * selectedQtyMap[p.id] }));
+
+            if (selectedItems.length === 0) return;
+
+            const totalQty = selectedItems.reduce((s, i) => s + i.qty, 0);
+            const totalPrice = selectedItems.reduce((s, i) => s + i.subtotal, 0);
+            const lines = selectedItems.map((item, idx) => `${idx + 1}. ${item.name} (฿${item.price} x ${item.qty}) = ${item.subtotal} บาท`);
+
+            const summaryText = `🥕 สรุปรายการสั่งซื้อร้าน Norivelle (หม่ำแครอทแล้ว ${totalQty} 🥕)\n${lines.join('\n')}\n--------------------\nรวมทั้งหมด: ${totalQty} ชิ้น\nยอดรวมสุทธิ: ${totalPrice.toLocaleString()} บาท`;
+            lastCopiedOrderText = summaryText;
+
+            const temp = document.createElement('textarea');
+            temp.value = summaryText;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            const previewBox = document.getElementById('copied-order-preview');
+            const previewText = document.getElementById('copied-order-text');
+            const msgTextarea = document.getElementById('quick-msg-textarea');
+
+            if (previewBox && previewText) {
+                previewText.textContent = summaryText;
+                previewBox.classList.remove('hidden');
+            }
+            if (msgTextarea) {
+                msgTextarea.value = summaryText;
+            }
+
+            closeModal();
+            switchTab('contact');
+            showToast('คัดลอกสรุปรายการแครอทแล้ว! กดส่งให้ทางร้านได้เลยค่ะ 🥕');
+        }
+
+        // ป๊อปอัพสินค้า: เอาสถานะออก และเปลี่ยนปุ่มเป็นปุ่ม "ดูตัวอย่าง" (เชื่อมลิงก์ตัวอย่างสินค้า)
+        function openProductPreviewModal(prodId) {
+            const prod = appData.products.find(p => p.id === prodId);
+            if (!prod) return;
+            const targetPreviewUrl = (prod.previewUrl && prod.previewUrl.trim()) ? prod.previewUrl.trim() : prod.image;
+
+            openModal(`ตัวอย่างสินค้า: ${prod.name}`, `
+                <div class="space-y-3 text-xs sm:text-sm">
+                    <div id="preview-img-box" class="rounded-2xl overflow-hidden border border-pastel-purple bg-pastel-bg aspect-[5/4] relative">
+                        <img src="${prod.image}" alt="${prod.name}" onerror="this.src='https://placehold.co/500x400/FCE4F0/7C5295?text=Demo+Preview'" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex flex-wrap items-center gap-1.5">
+                            <span class="px-2.5 py-0.5 rounded-full text-[11px] bg-pastel-pink/70 text-pastel-purpleDark font-medium border border-pastel-purple">${prod.category}</span>
+                            ${prod.tag ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] bg-pastel-purple/70 text-pastel-purpleDark font-medium border border-pastel-purple">${prod.tag}</span>` : ''}
+                        </div>
+                        <span class="text-base font-bold text-pastel-purpleDark">฿${prod.price}</span>
+                    </div>
+                    <p class="text-xs text-pastel-muted leading-relaxed font-normal">${prod.desc}</p>
+                    <div class="pt-2">
+                        <a href="${targetPreviewUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white font-medium text-xs shadow-xs hover:opacity-95 transition inline-flex items-center justify-center gap-1.5">
+                            <i class="ph-bold ph-eye text-sm"></i> ดูตัวอย่าง
+                        </a>
+                    </div>
+                </div>
+            `);
+        }
+
+        // ป๊อปอัพดูตัวอย่างของแต่ง
+        function openDecorPreviewModal(decorId) {
+            const item = (appData.decors || []).find(d => d.id === decorId);
+            if (!item) return;
+
+            openModal(`ตัวอย่างของแต่ง: ${item.name}`, `
+                <div class="space-y-3 text-xs sm:text-sm">
+                    <div class="rounded-2xl overflow-hidden border border-pastel-purple bg-pastel-bg aspect-[5/4]">
+                        <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/500x400/FCE4F0/7C5295?text=Decor+Preview'" class="w-full h-full object-cover">
+                    </div>
+                    <h4 class="font-bold text-pastel-text text-sm">${item.name}</h4>
+                    <p class="text-xs text-pastel-muted leading-relaxed">${item.desc || ''}</p>
+                    <div class="pt-1">
+                        <button onclick="window.open('${item.image}', '_blank')" class="w-full py-2.5 px-4 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white font-medium text-xs shadow-xs hover:opacity-95 transition inline-flex items-center justify-center gap-1.5">
+                            <i class="ph-bold ph-eye text-sm"></i> ดูตัวอย่าง
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        // แสดงรายการในแท็บ "เลือกของแต่ง" (เป็นการ์ดเหมือนสินค้า แต่มีเฉพาะ รูป ชื่อ และปุ่มตัวอย่างเท่านั้น)
+        function renderProductSelector() {
+            const container = document.getElementById('selector-product-list');
+            if (!container) return;
+
+            const list = appData.decors || [];
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-6 text-xs text-pastel-muted">ยังไม่มีรายการของแต่งค่ะ</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(item => `
+                <div class="rounded-2xl bg-white border border-pastel-purple p-2 shadow-xs hover:shadow-soft flex flex-col justify-between transition">
+                    <div class="relative aspect-[5/4] bg-pastel-bg rounded-xl overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" 
+                             onerror="this.src='https://placehold.co/500x400/FCE4F0/7C5295?text=Decor+Demo'" 
+                             class="w-full h-full object-cover">
+                        <button onclick="deleteDecor(${item.id})" class="admin-only ${isAdmin ? '' : 'hidden'} absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-sm">
+                            <i class="ph-bold ph-trash text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="px-2 pt-2.5 pb-1.5 flex items-center justify-between gap-2">
+                        <h3 class="font-bold text-pastel-text text-sm truncate">${item.name}</h3>
+                        <button onclick="openDecorPreviewModal(${item.id})" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-[11px] font-medium shadow-xs hover:opacity-90 transition">
+                            <i class="ph-bold ph-eye"></i> ตัวอย่าง
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectProductForOrder(name, price, category) {
+            const orderTemplate = `🌸 สวัสดีค่ะ สนใจสั่งซื้อสินค้าจากเว็บ Norivelle\n• รายการ: ${name}\n• หมวดหมู่: ${category}\n• ราคา: ${price} บาท\n• จำนวน: 1 ชิ้น`;
+            lastCopiedOrderText = orderTemplate;
+
+            // คัดลอกลงคลิปบอร์ดทันที
+            const temp = document.createElement('textarea');
+            temp.value = orderTemplate;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            // แสดงตัวอย่างข้อความที่คัดลอกในหน้าติดต่อร้าน และใส่ในฟอร์มให้อัตโนมัติ
+            const previewBox = document.getElementById('copied-order-preview');
+            const previewText = document.getElementById('copied-order-text');
+            const msgTextarea = document.getElementById('quick-msg-textarea');
+
+            if (previewBox && previewText) {
+                previewText.textContent = orderTemplate;
+                previewBox.classList.remove('hidden');
+            }
+            if (msgTextarea) {
+                msgTextarea.value = orderTemplate;
+            }
+
+            switchTab('contact');
+            showToast(`คัดลอกรายการ "${name}" แล้ว! ส่งให้ร้านทางแชทได้เลยค่ะ`);
+        }
+
+        function copyAgainLastOrder() {
+            if (!lastCopiedOrderText) return;
+            copyText(lastCopiedOrderText);
+        }
+
+        function renderPayments() {
+            const container = document.getElementById('payment-list');
+            container.innerHTML = appData.payments.map(pay => `
+                <div class="rounded-2xl p-4 border ${pay.color || 'bg-pastel-bg border-pastel-purple'} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div class="space-y-0.5">
+                        <div class="text-xs font-medium opacity-80">${pay.bank}</div>
+                        <div class="text-lg sm:text-xl font-bold tracking-wider font-cute">${pay.accNumber}</div>
+                        <div class="text-xs opacity-90">ชื่อบัญชี: ${pay.accName}</div>
+                    </div>
+                    <div class="flex items-center gap-2 self-end sm:self-center">
+                        <button onclick="copyText('${pay.accNumber}')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white text-pastel-text text-xs font-medium shadow-xs hover:bg-pastel-purple/40 transition">
+                            <i class="ph-bold ph-copy"></i> คัดลอกเลขบัญชี
+                        </button>
+                        <button onclick="deletePayment(${pay.id})" class="admin-only ${isAdmin ? '' : 'hidden'} p-2 rounded-xl bg-rose-500 text-white text-xs">
+                            <i class="ph-bold ph-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTracking() {
+            const query = (document.getElementById('tracking-search')?.value || '').toLowerCase();
+            const container = document.getElementById('tracking-list');
+            if (!container) return;
+            const filtered = appData.trackings.filter(t => 
+                t.customer.toLowerCase().includes(query) || 
+                t.trackNo.toLowerCase().includes(query) ||
+                t.item.toLowerCase().includes(query)
+            );
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-xs sm:text-sm text-pastel-muted">ไม่พบรายชื่อหรือเลขพัสดุที่ค้นหา</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="rounded-2xl bg-pastel-bg p-4 border border-pastel-purple/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm text-pastel-text">${item.customer}</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-white text-pastel-purpleDark border border-pastel-purple/50">${item.carrier}</span>
+                            <span class="text-xs text-pastel-muted">(${item.date})</span>
+                        </div>
+                        <p class="text-xs text-pastel-muted">รายการ: ${item.item}</p>
+                    </div>
+                    <div class="flex items-center gap-2 self-end sm:self-center">
+                        <div class="px-3 py-1.5 rounded-xl bg-white border border-pastel-purple/50 text-xs font-medium text-pastel-purpleDark">
+                            ${item.trackNo}
+                        </div>
+                        <button onclick="copyText('${item.trackNo}')" class="p-2 rounded-xl bg-white border border-pastel-purple/50 text-pastel-text hover:bg-pastel-purple/30 transition" title="คัดลอกเลขพัสดุ">
+                            <i class="ph-bold ph-copy text-sm"></i>
+                        </button>
+                        <button onclick="deleteTracking(${item.id})" class="admin-only ${isAdmin ? '' : 'hidden'} p-2 rounded-xl bg-rose-500 text-white text-xs">
+                            <i class="ph-bold ph-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderContacts() {
+            const container = document.getElementById('contact-list');
+            container.innerHTML = appData.contacts.map((c, idx) => {
+                const isPinkTone = idx % 2 === 0;
+                const cardBg = isPinkTone
+                    ? 'bg-gradient-to-r from-[#FFF0F7] via-[#FDF5FB] to-[#F6EEFC] border-[#F2C6DE]'
+                    : 'bg-gradient-to-r from-[#F6EEFC] via-[#FDF5FB] to-[#FFF0F7] border-[#DEC8F0]';
+                const iconBg = isPinkTone
+                    ? 'bg-gradient-to-br from-pastel-pinkDark to-[#E58BB8] text-white'
+                    : 'bg-gradient-to-br from-pastel-purpleDark to-[#9B72B8] text-white';
+
+                return `
+                <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="group relative overflow-hidden w-full rounded-3xl ${cardBg} p-3.5 sm:px-5 sm:py-3.5 border-2 hover:border-pastel-pinkDark hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-between gap-3 shadow-soft">
+                    <div class="flex items-center gap-3.5 min-w-0">
+                        <div class="w-11 h-11 rounded-2xl ${iconBg} flex items-center justify-center shrink-0 shadow-xs border-2 border-white group-hover:scale-105 transition-transform">
+                            <i class="ph-fill ${c.icon} text-xl"></i>
+                        </div>
+                        <div class="min-w-0 text-left">
+                            <div class="flex flex-wrap items-center gap-1.5">
+                                <span class="text-xs sm:text-sm font-extrabold text-pastel-text">${c.platform}</span>
+                                <span class="px-2 py-0.5 rounded-full bg-white/90 text-pastel-purpleDark text-[10px] font-semibold border border-pastel-purple truncate">${c.handle}</span>
+                            </div>
+                            <p class="text-[11px] text-pastel-muted mt-0.5 truncate">✨ ${c.note}</p>
+                        </div>
+                    </div>
+                    <span class="shrink-0 inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-[11px] font-medium shadow-xs group-hover:opacity-95 transition">
+                        <span>ทักแชท</span>
+                        <i class="ph-fill ph-heart text-[10px]"></i>
+                    </span>
+                </a>
+                `;
+            }).join('');
+        }
+
+        // ฟังก์ชันคัดลอกข้อความลงคลิปบอร์ด
+        function copyText(text) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast(`คัดลอก "${text}" เรียบร้อยแล้วค่ะ`);
+        }
+
+        // ฟังก์ชันส่งข้อความด่วน (Demo)
+        function handleQuickMessage(e) {
+            e.preventDefault();
+            e.target.reset();
+            showToast('ส่งข้อความตัวอย่างเรียบร้อย! (ระบบจำลองหน้าบ้าน)');
+        }
+
+        // =================================================================
+        // ADMIN MODALS (แก้ไขข้อมูลแต่ละส่วน)
+        // =================================================================
+        function openModal(title, htmlContent) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-body').innerHTML = htmlContent;
+            document.getElementById('modal-backdrop').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').classList.add('hidden');
+        }
+
+        // 1. แก้ไขโลโก้ ชื่อร้าน รายละเอียด รูป PNG ทุกจุด และเพลงประกอบ
+        function openHeaderModal() {
+            openModal('แก้ไขหัวเว็บ รูป PNG ทุกจุด และเพลง', `
+                <form onsubmit="saveHeaderModal(event)" class="space-y-3 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">1. รูปโลโก้ร้าน (ใช้เป็นไอคอนแอปและรูปพรีวิวแชร์ด้วย)</label>
+                        <input type="url" id="edit-logo" required value="${appData.header.logo}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">2. รูป PNG แผ่นเสียงเพลงหมุน (มุมขวาบน)</label>
+                        <input type="url" id="edit-vinyl-png" required value="${appData.header.vinylPng || appData.header.logo}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">3. รูป PNG ตะกร้าแครอทลอย (ด้านขวา)</label>
+                        <input type="url" id="edit-mascot-png" required value="${appData.header.mascotPng || defaultData.header.mascotPng}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ลิงก์ไฟล์เพลงประกอบ (.mp3 / .m4a - เว้นว่างเพื่อใช้เสียงกล่องดนตรีอัตโนมัติ)</label>
+                        <input type="url" id="edit-bgm-url" value="${appData.header.bgmUrl || ''}" placeholder="https://... (ลิงก์ไฟล์เสียงตรง)" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อร้าน (แสดงบนแอปเมื่อแชร์)</label>
+                            <input type="text" id="edit-name" required value="${appData.header.name}" class="w-full px-3 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-pastel-muted mb-1">ป้ายข้อความเล็ก (Badge)</label>
+                            <input type="text" id="edit-badge" required value="${appData.header.badge}" class="w-full px-3 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">รายละเอียดร้าน</label>
+                        <textarea id="edit-desc" rows="2" required class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs">${appData.header.desc}</textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white font-medium text-xs shadow-xs">บันทึกการเปลี่ยนแปลงทั้งหมด</button>
+                </form>
+            `);
+        }
+
+        function saveHeaderModal(e) {
+            e.preventDefault();
+            appData.header.logo = document.getElementById('edit-logo').value.trim();
+            appData.header.vinylPng = document.getElementById('edit-vinyl-png').value.trim();
+            appData.header.mascotPng = document.getElementById('edit-mascot-png').value.trim();
+            appData.header.bgmUrl = document.getElementById('edit-bgm-url').value.trim();
+            appData.header.badge = document.getElementById('edit-badge').value;
+            appData.header.name = document.getElementById('edit-name').value;
+            appData.header.desc = document.getElementById('edit-desc').value;
+            saveData();
+            renderAll();
+            restartBgmWithCurrentSource();
+            closeModal();
+            showToast('อัปเดตหัวเว็บ รูป PNG ทุกจุด และเพลงเรียบร้อยแล้วค่ะ');
+        }
+
+        // 2. แก้ไขข้อความวิ่ง
+        function openMarqueeModal() {
+            openModal('แก้ไขประกาศข้อความวิ่ง', `
+                <form onsubmit="saveMarqueeModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ข้อความวิ่ง</label>
+                        <textarea id="edit-marquee" rows="3" required class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">${appData.marquee}</textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกข้อความวิ่ง</button>
+                </form>
+            `);
+        }
+
+        function saveMarqueeModal(e) {
+            e.preventDefault();
+            appData.marquee = document.getElementById('edit-marquee').value;
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('อัปเดตข้อความวิ่งเรียบร้อยแล้ว');
+        }
+
+        // 3. แก้ไขกล่องรายละเอียดที่ 1
+        function openBox1Modal() {
+            openModal('แก้ไขกล่องรายละเอียดที่ 1', `
+                <form onsubmit="saveBox1Modal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">หัวข้อกล่องที่ 1</label>
+                        <input type="text" id="edit-box1-title" required value="${appData.box1.title}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">เนื้อหารายละเอียด</label>
+                        <textarea id="edit-box1-content" rows="5" required class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">${appData.box1.content}</textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกรายละเอียด</button>
+                </form>
+            `);
+        }
+
+        function saveBox1Modal(e) {
+            e.preventDefault();
+            appData.box1.title = document.getElementById('edit-box1-title').value;
+            appData.box1.content = document.getElementById('edit-box1-content').value;
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('อัปเดตกล่องกฎร้านเรียบร้อยแล้ว');
+        }
+
+        // 3.5 แก้ไขข้อความรายละเอียดอื่นๆ เพิ่มเติม (กล่องที่ 2)
+        function openBox2TextModal() {
+            openModal('แก้ไขรายละเอียดอื่นๆ เพิ่มเติม (กล่องที่ 2)', `
+                <form onsubmit="saveBox2TextModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">หัวข้อกล่องที่ 2</label>
+                        <input type="text" id="edit-box2-title" required value="${appData.box2.title}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">คำอธิบายย่อย</label>
+                        <input type="text" id="edit-box2-subtitle" required value="${appData.box2.subtitle}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">รายละเอียดอื่นๆ เพิ่มเติม (เช่น รอบจัดส่ง / เวลาทำการ)</label>
+                        <textarea id="edit-box2-content" rows="5" required class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">${appData.box2.content}</textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกรายละเอียดกล่องที่ 2</button>
+                </form>
+            `);
+        }
+
+        function saveBox2TextModal(e) {
+            e.preventDefault();
+            appData.box2.title = document.getElementById('edit-box2-title').value;
+            appData.box2.subtitle = document.getElementById('edit-box2-subtitle').value;
+            appData.box2.content = document.getElementById('edit-box2-content').value;
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('อัปเดตรายละเอียดกล่องที่ 2 เรียบร้อยแล้ว');
+        }
+
+        // 4. เพิ่ม/ลบ ตัวอย่างงานในกล่องรายละเอียดที่ 2
+        function openAddShowcaseModal() {
+            openModal('เพิ่มตัวอย่างงาน / รีวิว (กล่องที่ 2)', `
+                <form onsubmit="saveShowcaseModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อผลงาน / หัวข้อ</label>
+                        <input type="text" id="new-sc-title" required placeholder="เช่น พวงกุญแจคอลเลกชันใหม่" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ป้ายกำกับ (Tag)</label>
+                        <input type="text" id="new-sc-tag" required value="ตัวอย่างงาน" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ลิงก์รูปภาพ (เว้นว่างเพื่อใช้ภาพ Demo ได้)</label>
+                        <input type="url" id="new-sc-img" placeholder="https://..." class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">คำอธิบายสั้นๆ</label>
+                        <textarea id="new-sc-desc" rows="2" required placeholder="รายละเอียดของผลงานชิ้นนี้..." class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">เพิ่มตัวอย่างงาน</button>
+                </form>
+            `);
+        }
+
+        function saveShowcaseModal(e) {
+            e.preventDefault();
+            const imgInput = document.getElementById('new-sc-img').value.trim();
+            appData.showcases.unshift({
+                id: Date.now(),
+                title: document.getElementById('new-sc-title').value,
+                tag: document.getElementById('new-sc-tag').value,
+                image: imgInput || 'https://placehold.co/600x400/FFD6EC/5A4A6A?text=Norivelle+New+Demo',
+                desc: document.getElementById('new-sc-desc').value
+            });
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('เพิ่มตัวอย่างงานใหม่เรียบร้อยแล้ว');
+        }
+
+        function deleteShowcase(id) {
+            appData.showcases = appData.showcases.filter(s => s.id !== id);
+            saveData();
+            renderAll();
+            showToast('ลบรายการตัวอย่างงานแล้ว');
+        }
+
+        // 4.8 จัดการหมวดหมู่สินค้า (เพิ่ม / แก้ไข / ลบ)
+        function openManageCategoriesModal() {
+            const cats = appData.categories || [];
+            const rowsHtml = cats.length === 0
+                ? `<div class="text-center py-4 text-xs text-pastel-muted">ยังไม่มีหมวดหมู่สินค้า</div>`
+                : cats.map((c, idx) => `
+                    <div class="flex items-center gap-2 bg-pastel-bg p-2 rounded-xl border border-pastel-purple/70">
+                        <input type="text" id="cat-edit-input-${idx}" value="${c}" class="flex-1 px-2.5 py-1.5 rounded-lg bg-white border border-pastel-purple text-xs text-pastel-text focus:outline-none focus:border-pastel-purpleDark">
+                        <button type="button" onclick="saveCategoryEdit(${idx})" class="px-2.5 py-1.5 rounded-lg bg-pastel-purpleDark text-white text-[11px] font-medium hover:opacity-90 transition">
+                            บันทึกชื่อ
+                        </button>
+                        <button type="button" onclick="deleteCategoryItem(${idx})" class="p-1.5 rounded-lg bg-rose-500 text-white text-xs hover:bg-rose-600 transition" title="ลบหมวดหมู่">
+                            <i class="ph-bold ph-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+
+            openModal('จัดการหมวดหมู่สินค้า (เพิ่ม / แก้ไข / ลบ)', `
+                <div class="space-y-4 text-sm">
+                    <form onsubmit="addNewCategoryItem(event)" class="flex items-center gap-2">
+                        <input type="text" id="new-category-name" required placeholder="พิมพ์ชื่อหมวดหมู่ใหม่..." class="flex-1 px-3 py-2 rounded-xl bg-pastel-bg border border-pastel-purple text-xs focus:outline-none focus:border-pastel-purpleDark">
+                        <button type="submit" class="shrink-0 px-3.5 py-2 rounded-xl bg-gradient-to-r from-pastel-pinkDark to-pastel-purpleDark text-white text-xs font-medium shadow-xs">
+                            + เพิ่มหมวดหมู่
+                        </button>
+                    </form>
+                    <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                        <div class="text-xs font-medium text-pastel-muted">รายการหมวดหมู่ปัจจุบัน (แก้ชื่อแล้วกดบันทึกชื่อได้เลย):</div>
+                        ${rowsHtml}
+                    </div>
+                    <div class="pt-1 border-t border-pastel-purple/40 flex justify-end">
+                        <button type="button" onclick="openAddProductModal()" class="text-xs font-medium text-pastel-purpleDark hover:underline inline-flex items-center gap-1">
+                            <i class="ph-bold ph-plus-circle"></i> ไปหน้าเพิ่มสินค้าใหม่
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        function addNewCategoryItem(e) {
+            e.preventDefault();
+            const input = document.getElementById('new-category-name');
+            const val = (input?.value || '').trim();
+            if (!val) return;
+            if (!appData.categories) appData.categories = [];
+            if (appData.categories.includes(val)) {
+                showToast('มีชื่อหมวดหมู่นี้อยู่แล้วค่ะ');
+                return;
+            }
+            appData.categories.push(val);
+            saveData();
+            renderAll();
+            openManageCategoriesModal();
+            showToast(`เพิ่มหมวดหมู่ "${val}" เรียบร้อยแล้วค่ะ`);
+        }
+
+        function saveCategoryEdit(idx) {
+            const input = document.getElementById(`cat-edit-input-${idx}`);
+            const newName = (input?.value || '').trim();
+            if (!newName) return;
+            const oldName = appData.categories[idx];
+            if (!oldName) return;
+
+            appData.categories[idx] = newName;
+            // อัปเดตชื่อหมวดหมู่ของสินค้าที่เคยใช้ชื่อเดิมให้ตรงกัน
+            appData.products.forEach(p => {
+                if (p.category === oldName) p.category = newName;
+            });
+            if (currentCategory === oldName) currentCategory = newName;
+
+            saveData();
+            renderAll();
+            openManageCategoriesModal();
+            showToast(`แก้ไขชื่อหมวดหมู่เป็น "${newName}" เรียบร้อยแล้วค่ะ`);
+        }
+
+        function deleteCategoryItem(idx) {
+            const removed = appData.categories[idx];
+            if (!removed) return;
+            appData.categories.splice(idx, 1);
+            if (currentCategory === removed) currentCategory = 'all';
+            saveData();
+            renderAll();
+            openManageCategoriesModal();
+            showToast(`ลบหมวดหมู่ "${removed}" เรียบร้อยแล้วค่ะ`);
+        }
+
+        // 5. เพิ่ม/ลบ สินค้าในแท็บสินค้า (พร้อมช่องวางลิงก์ตัวอย่างสินค้า & ปุ่มจัดการหมวดหมู่)
+        function openAddProductModal() {
+            const cats = (appData.categories && appData.categories.length > 0)
+                ? appData.categories
+                : ['ของกุ๊กกิ๊ก'];
+            const catOptionsHtml = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            openModal('เพิ่มสินค้าใหม่ (แท็บสินค้า)', `
+                <form onsubmit="saveProductModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อสินค้า</label>
+                        <input type="text" id="new-prod-name" required placeholder="เช่น Pastel Bunny Sticker" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="block text-xs font-medium text-pastel-muted">หมวดหมู่</label>
+                                <button type="button" onclick="openManageCategoriesModal()" class="text-[11px] font-semibold text-pastel-purpleDark hover:underline inline-flex items-center gap-0.5">
+                                    <i class="ph-bold ph-gear"></i> แก้ไข/เพิ่ม/ลบ
+                                </button>
+                            </div>
+                            <select id="new-prod-cat" class="w-full px-3 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                                ${catOptionsHtml}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-pastel-muted mb-1">ราคา (บาท)</label>
+                            <input type="number" id="new-prod-price" required value="99" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ป้ายแท็กสินค้า (Tag)</label>
+                        <input type="text" id="new-prod-tag" required value="แนะนำ ✨" placeholder="เช่น ขายดี / มาใหม่" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ลิงก์รูปสินค้า (เว้นว่างเพื่อใช้ภาพ Demo ได้)</label>
+                        <input type="url" id="new-prod-img" placeholder="https://..." class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ลิงก์ตัวอย่างสินค้า (สำหรับปุ่มดูตัวอย่าง)</label>
+                        <input type="url" id="new-prod-preview-url" placeholder="https://... (วางลิงก์อัลบั้ม/วิดีโอ/รูปตัวอย่างสินค้า)" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">รายละเอียดสินค้า</label>
+                        <textarea id="new-prod-desc" rows="2" required placeholder="คำอธิบายสินค้า..." class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกสินค้าใหม่</button>
+                </form>
+            `);
+        }
+
+        function saveProductModal(e) {
+            e.preventDefault();
+            const img = document.getElementById('new-prod-img').value.trim();
+            const previewUrl = document.getElementById('new-prod-preview-url').value.trim();
+            const fallbackImg = img || 'https://placehold.co/500x400/E8D5FF/5A4A6A?text=New+Demo+Product';
+            appData.products.unshift({
+                id: Date.now(),
+                name: document.getElementById('new-prod-name').value,
+                category: document.getElementById('new-prod-cat').value,
+                tag: document.getElementById('new-prod-tag').value,
+                price: Number(document.getElementById('new-prod-price').value),
+                status: 'พร้อมส่ง',
+                image: fallbackImg,
+                previewUrl: previewUrl || fallbackImg,
+                desc: document.getElementById('new-prod-desc').value
+            });
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('เพิ่มสินค้าใหม่เข้าสู่ระบบแล้ว');
+        }
+
+        function deleteProduct(id) {
+            appData.products = appData.products.filter(p => p.id !== id);
+            saveData();
+            renderAll();
+            showToast('ลบสินค้าเรียบร้อยแล้ว');
+        }
+
+        // 5.5 เพิ่ม/ลบ ของแต่งในแท็บเลือกของแต่ง
+        function openAddDecorModal() {
+            openModal('เพิ่มของแต่งใหม่ (แท็บเลือกของแต่ง)', `
+                <form onsubmit="saveDecorModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อของแต่ง</label>
+                        <input type="text" id="new-decor-name" required placeholder="เช่น โซ่ไข่ปลาพาสเทล" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ลิงก์รูปของแต่ง (เว้นว่างเพื่อใช้ภาพ Demo ได้)</label>
+                        <input type="url" id="new-decor-img" placeholder="https://..." class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">รายละเอียดเพิ่มเติม (แสดงตอนกดดูตัวอย่าง)</label>
+                        <textarea id="new-decor-desc" rows="2" placeholder="คำอธิบายของแต่ง..." class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกของแต่ง</button>
+                </form>
+            `);
+        }
+
+        function saveDecorModal(e) {
+            e.preventDefault();
+            const img = document.getElementById('new-decor-img').value.trim();
+            if (!appData.decors) appData.decors = [];
+            appData.decors.unshift({
+                id: Date.now(),
+                name: document.getElementById('new-decor-name').value,
+                image: img || 'https://placehold.co/500x400/FCE4F0/7C5295?text=New+Decor+Demo',
+                desc: document.getElementById('new-decor-desc').value
+            });
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('เพิ่มรายการของแต่งเรียบร้อยแล้ว');
+        }
+
+        function deleteDecor(id) {
+            appData.decors = (appData.decors || []).filter(d => d.id !== id);
+            saveData();
+            renderAll();
+            showToast('ลบรายการของแต่งแล้ว');
+        }
+
+        // 6. เพิ่ม/ลบ ช่องทางการโอน
+        function openAddPaymentModal() {
+            openModal('เพิ่มช่องทางการโอนเงิน', `
+                <form onsubmit="savePaymentModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อธนาคาร / ช่องทาง</label>
+                        <input type="text" id="new-pay-bank" required placeholder="เช่น ธนาคารไทยพาณิชย์ (SCB)" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">เลขที่บัญชี / เบอร์พร้อมเพย์</label>
+                        <input type="text" id="new-pay-num" required placeholder="000-0-00000-0" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อบัญชี</label>
+                        <input type="text" id="new-pay-name" required value="นอริเวลล์ สตูดิโอ (Demo)" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">เพิ่มช่องทางรับโอน</button>
+                </form>
+            `);
+        }
+
+        function savePaymentModal(e) {
+            e.preventDefault();
+            appData.payments.push({
+                id: Date.now(),
+                bank: document.getElementById('new-pay-bank').value,
+                accNumber: document.getElementById('new-pay-num').value,
+                accName: document.getElementById('new-pay-name').value,
+                color: 'bg-pastel-pink/30 border-pastel-pinkDark/50 text-pastel-text'
+            });
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('เพิ่มบัญชีรับโอนเรียบร้อยแล้ว');
+        }
+
+        function deletePayment(id) {
+            appData.payments = appData.payments.filter(p => p.id !== id);
+            saveData();
+            renderAll();
+            showToast('ลบบัญชีรับโอนแล้ว');
+        }
+
+        // 7. เพิ่ม/ลบ รายการแจ้งเลขพัสดุ
+        function openAddTrackingModal() {
+            openModal('แจ้งเลขพัสดุใหม่', `
+                <form onsubmit="saveTrackingModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">ชื่อลูกค้า</label>
+                        <input type="text" id="new-trk-cust" required placeholder="เช่น คุณแพรวา" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">รายการที่สั่ง</label>
+                        <input type="text" id="new-trk-item" required placeholder="เช่น Pastel Bear Keyring" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-xs font-medium text-pastel-muted mb-1">ขนส่ง</label>
+                            <input type="text" id="new-trk-carrier" required value="Flash Express" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-pastel-muted mb-1">วันที่ส่ง</label>
+                            <input type="text" id="new-trk-date" required value="08/11/2026" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">หมายเลขพัสดุ</label>
+                        <input type="text" id="new-trk-no" required placeholder="TH0123456789" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกเลขพัสดุ</button>
+                </form>
+            `);
+        }
+
+        function saveTrackingModal(e) {
+            e.preventDefault();
+            appData.trackings.unshift({
+                id: Date.now(),
+                customer: document.getElementById('new-trk-cust').value,
+                item: document.getElementById('new-trk-item').value,
+                carrier: document.getElementById('new-trk-carrier').value,
+                date: document.getElementById('new-trk-date').value,
+                trackNo: document.getElementById('new-trk-no').value,
+                status: 'จัดส่งแล้ว'
+            });
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('เพิ่มรายการแจ้งเลขพัสดุแล้ว');
+        }
+
+        function deleteTracking(id) {
+            appData.trackings = appData.trackings.filter(t => t.id !== id);
+            saveData();
+            renderAll();
+            showToast('ลบรายการแจ้งเลขพัสดุแล้ว');
+        }
+
+        // 8. แก้ไขช่องทางการติดต่อ
+        function openEditContactModal() {
+            openModal('แก้ไขช่องทางการติดต่อหลัก (LINE & IG)', `
+                <form onsubmit="saveContactModal(event)" class="space-y-3.5 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">LINE Official ID</label>
+                        <input type="text" id="edit-cnt-line" required value="${appData.contacts[0].handle}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-pastel-muted mb-1">Instagram</label>
+                        <input type="text" id="edit-cnt-ig" required value="${appData.contacts[1].handle}" class="w-full px-3.5 py-2 rounded-xl bg-pastel-bg border border-pastel-purple">
+                    </div>
+                    <button type="submit" class="w-full py-2.5 rounded-xl bg-pastel-purpleDark text-white font-medium">บันทึกข้อมูลติดต่อ</button>
+                </form>
+            `);
+        }
+
+        function saveContactModal(e) {
+            e.preventDefault();
+            appData.contacts[0].handle = document.getElementById('edit-cnt-line').value;
+            appData.contacts[1].handle = document.getElementById('edit-cnt-ig').value;
+            saveData();
+            renderAll();
+            closeModal();
+            showToast('อัปเดตข้อมูลติดต่อเรียบร้อยแล้ว');
+        }
+
+        // Center Popup Helper (แสดงป๊อปอัพแจ้งเตือนกลางจอน่ารักๆ)
+        let toastTimer;
+        function hideToastPopup() {
+            const toast = document.getElementById('toast');
+            if (toast) toast.classList.add('hidden');
+            clearTimeout(toastTimer);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = message;
+            toast.classList.remove('hidden');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2400);
+        }
+
+        // ลูกเล่นปุ่ม PNG ลอย: โปรยแครอท/ประกายดาวรอบตัวน้องและเปิดสรุปรายการ
+        function burstMascotSparkles(el) {
+            const rect = el.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            spawnDreamyTapEffect(cx, cy, ['🥕', '✨', '🩷', '🌸']);
+        }
+
+        function handleMascotClick(e) {
+            if (e && e.currentTarget) {
+                burstMascotSparkles(e.currentTarget);
+            }
+            openCarrotCartModal();
+        }
+
+        // ลูกเล่นเวลาจิ้ม/แตะหน้าจอฟุ้งๆ น่ารัก (Dreamy Pastel Tap Effect)
+        function spawnDreamyTapEffect(x, y, customIcons) {
+            const icons = customIcons || ['✨', '🌸', '🩷', '💜', '🫧', '🎀'];
+
+            // วงคลื่นพาสเทลฟุ้งๆ
+            const ring = document.createElement('div');
+            ring.className = 'tap-ripple-ring';
+            ring.style.left = `${x}px`;
+            ring.style.top = `${y}px`;
+            document.body.appendChild(ring);
+            setTimeout(() => ring.remove(), 800);
+
+            // ละอองไอคอนน่ารักลอยกระจาย 5 ชิ้น
+            const count = 5;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('span');
+                particle.className = 'tap-sparkle-particle';
+                particle.textContent = icons[Math.floor(Math.random() * icons.length)];
+
+                const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.6 - 0.3);
+                const distance = 28 + Math.random() * 34;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - 16;
+                const rot = Math.floor(Math.random() * 60 - 30);
+
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', `${rot}deg`);
+
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 900);
+            }
+        }
+
+        function triggerGlobalTapAndMusic(e) {
+            const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+            if (typeof clientX === 'number' && typeof clientY === 'number') {
+                spawnDreamyTapEffect(clientX, clientY);
+            }
+            // แตะจุดใดก็ได้ในเว็บ ให้ปลดล็อกเสียงและเล่นเพลงทันที (ยกเว้นกรณีผู้ใช้กดปิดเสียงเอง)
+            if (!bgmUserMuted) {
+                if (musicBoxCtx && musicBoxCtx.state === 'suspended') {
+                    musicBoxCtx.resume();
+                }
+                if (!isBgmPlaying) {
+                    startBgmPlayback();
+                }
+            }
+        }
+
+        document.addEventListener('pointerdown', triggerGlobalTapAndMusic, { passive: true });
+        document.addEventListener('touchstart', () => {
+            if (!bgmUserMuted && !isBgmPlaying) {
+                startBgmPlayback();
+            }
+        }, { passive: true });
+        document.addEventListener('click', () => {
+            if (!bgmUserMuted && !isBgmPlaying) {
+                startBgmPlayback();
+            }
+        });
+
+        // =================================================================
+        // PWA / APP SHARE METADATA SYNC (ยึดชื่อและโลโก้ปัจจุบันตลอดเมื่อแชร์หรือเพิ่มลงหน้าจอโฮม)
+        // =================================================================
+        function syncAppShareMetadata() {
+            const currentName = (appData.header && appData.header.name) ? appData.header.name : 'Norivelle';
+            const currentLogo = (appData.header && appData.header.logo) ? appData.header.logo : defaultData.header.logo;
+            const currentDesc = (appData.header && appData.header.desc) ? appData.header.desc : '';
+
+            document.title = currentName;
+            const elPageTitle = document.getElementById('meta-page-title');
+            const elAppTitle = document.getElementById('meta-app-title');
+            const elOgTitle = document.getElementById('meta-og-title');
+            const elOgDesc = document.getElementById('meta-og-desc');
+            const elOgImg = document.getElementById('meta-og-image');
+            const elAppleIcon = document.getElementById('meta-apple-icon');
+            const elFavicon = document.getElementById('meta-favicon');
+            const elManifest = document.getElementById('meta-manifest');
+
+            if (elPageTitle) elPageTitle.textContent = currentName;
+            if (elAppTitle) elAppTitle.setAttribute('content', currentName);
+            if (elOgTitle) elOgTitle.setAttribute('content', currentName);
+            if (elOgDesc) elOgDesc.setAttribute('content', currentDesc);
+            if (elOgImg) elOgImg.setAttribute('content', currentLogo);
+            if (elAppleIcon) elAppleIcon.setAttribute('href', currentLogo);
+            if (elFavicon) elFavicon.setAttribute('href', currentLogo);
+
+            // สร้าง Web App Manifest แบบ Dynamic ให้รองรับ Add to Home Screen เต็มจอเหมือนแอป
+            if (elManifest) {
+                try {
+                    const manifestObj = {
+                        name: currentName,
+                        short_name: currentName,
+                        description: currentDesc,
+                        start_url: window.location.href,
+                        display: 'standalone',
+                        background_color: '#FDF7FA',
+                        theme_color: '#D972A6',
+                        icons: [
+                            { src: currentLogo, sizes: '192x192', type: 'image/png' },
+                            { src: currentLogo, sizes: '512x512', type: 'image/png' }
+                        ]
+                    };
+                    const blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+                    elManifest.setAttribute('href', URL.createObjectURL(blob));
+                } catch (err) {
+                    // ignore if sandboxed
+                }
+            }
+        }
+
+        // =================================================================
+        // VINYL DISC BGM PLAYER & FLOATING MUSIC NOTES (แผ่นเสียงหมุน + โน้ตดนตรีลอย + เล่นอัตโนมัติ)
+        // =================================================================
+        let isBgmPlaying = false;
+        let bgmUserMuted = false;
+        let musicBoxCtx = null;
+        let musicBoxInterval = null;
+        let vinylNotesInterval = null;
+
+        // เมโลดี้กล่องดนตรีพาสเทลนุ่มๆ (เล่นได้ทันทีโดยไม่ต้องพึ่งไฟล์เสียงภายนอก)
+        const pastelMelodyNotes = [
+            523.25, 659.25, 783.99, 1046.50,
+            987.77, 783.99, 659.25, 587.33,
+            659.25, 783.99, 880.00, 783.99,
+            659.25, 587.33, 523.25, 0
+        ];
+        let melodyStep = 0;
+
+        function playMusicBoxStep() {
+            if (!isBgmPlaying) return;
+            try {
+                if (!musicBoxCtx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    musicBoxCtx = new AudioCtx();
+                }
+                if (musicBoxCtx.state === 'suspended') {
+                    musicBoxCtx.resume();
+                }
+                const freq = pastelMelodyNotes[melodyStep % pastelMelodyNotes.length];
+                melodyStep++;
+                if (!freq) return;
+
+                const now = musicBoxCtx.currentTime;
+                const osc = musicBoxCtx.createOscillator();
+                const gain = musicBoxCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.exponentialRampToValueAtTime(0.032, now + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+
+                osc.connect(gain);
+                gain.connect(musicBoxCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.58);
+            } catch (e) {
+                // ignore audio restriction errors
+            }
+        }
+
+        function spawnVinylMusicNote() {
+            if (!isBgmPlaying) return;
+            const layer = document.getElementById('vinyl-notes-layer');
+            if (!layer) return;
+
+            const notes = ['♪', '♫', '♩', '♬'];
+            const noteEl = document.createElement('span');
+            noteEl.className = 'floating-music-note';
+            noteEl.textContent = notes[Math.floor(Math.random() * notes.length)];
+            noteEl.style.left = `${20 + Math.random() * 55}%`;
+            noteEl.style.top = `${15 + Math.random() * 35}%`;
+            noteEl.style.setProperty('--nx', `${Math.floor(Math.random() * 32 - 20)}px`);
+
+            layer.appendChild(noteEl);
+            setTimeout(() => noteEl.remove(), 1950);
+        }
+
+        function updateVinylVisualState() {
+            const disc = document.getElementById('vinyl-disc-img');
+            const icon = document.getElementById('vinyl-sound-icon');
+            if (disc) {
+                disc.classList.toggle('vinyl-paused', !isBgmPlaying);
+            }
+            if (icon) {
+                icon.className = isBgmPlaying
+                    ? 'ph-fill ph-music-notes text-[10px]'
+                    : 'ph-fill ph-speaker-slash text-[10px]';
+            }
+        }
+
+        function startBgmPlayback() {
+            const customUrl = (appData.header && appData.header.bgmUrl) ? appData.header.bgmUrl.trim() : '';
+            const audioEl = document.getElementById('bgm-audio-player');
+
+            if (customUrl && audioEl) {
+                if (audioEl.src !== customUrl) audioEl.src = customUrl;
+                audioEl.volume = 0.45;
+                audioEl.play().then(() => {
+                    isBgmPlaying = true;
+                    updateVinylVisualState();
+                    ensureVinylNotesLoop();
+                }).catch(() => {
+                    // รอการแตะหน้าจอครั้งแรกหากเบราว์เซอร์บล็อก Autoplay
+                    isBgmPlaying = false;
+                    updateVinylVisualState();
+                });
+            } else {
+                try {
+                    if (!musicBoxCtx) {
+                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                        musicBoxCtx = new AudioCtx();
+                    }
+                    if (musicBoxCtx.state === 'suspended') {
+                        musicBoxCtx.resume().then(() => {
+                            if (!bgmUserMuted && !isBgmPlaying) {
+                                isBgmPlaying = true;
+                                updateVinylVisualState();
+                                if (!musicBoxInterval) {
+                                    playMusicBoxStep();
+                                    musicBoxInterval = setInterval(playMusicBoxStep, 480);
+                                }
+                                ensureVinylNotesLoop();
+                            }
+                        }).catch(() => {});
+                    }
+                    if (musicBoxCtx.state === 'running') {
+                        isBgmPlaying = true;
+                        updateVinylVisualState();
+                        if (!musicBoxInterval) {
+                            playMusicBoxStep();
+                            musicBoxInterval = setInterval(playMusicBoxStep, 480);
+                        }
+                        ensureVinylNotesLoop();
+                    }
+                } catch (e) {
+                    isBgmPlaying = false;
+                    updateVinylVisualState();
+                }
+            }
+        }
+
+        function stopBgmPlayback() {
+            isBgmPlaying = false;
+            const audioEl = document.getElementById('bgm-audio-player');
+            if (audioEl) audioEl.pause();
+            if (musicBoxInterval) {
+                clearInterval(musicBoxInterval);
+                musicBoxInterval = null;
+            }
+            if (vinylNotesInterval) {
+                clearInterval(vinylNotesInterval);
+                vinylNotesInterval = null;
+            }
+            updateVinylVisualState();
+        }
+
+        function restartBgmWithCurrentSource() {
+            stopBgmPlayback();
+            if (!bgmUserMuted) startBgmPlayback();
+        }
+
+        function ensureVinylNotesLoop() {
+            if (!vinylNotesInterval) {
+                spawnVinylMusicNote();
+                vinylNotesInterval = setInterval(spawnVinylMusicNote, 850);
+            }
+        }
+
+        function toggleBgmPlayback(e) {
+            if (e) e.stopPropagation();
+            if (isBgmPlaying) {
+                bgmUserMuted = true;
+                stopBgmPlayback();
+                showToast('หยุดเล่นเพลงประกอบชั่วคราวแล้วค่ะ 🎵');
+            } else {
+                bgmUserMuted = false;
+                startBgmPlayback();
+                spawnVinylMusicNote();
+                showToast('เปิดเล่นเพลงประกอบร้านแล้วค่ะ 🎶');
+            }
+        }
+
+        window.onload = function() {
+            renderAll();
+            // พยายามเล่นเพลงอัตโนมัติทันทีเมื่อเข้าเว็บ (และจะเล่นทันทีเมื่อแตะหน้าจอหากเบราว์เซอร์บล็อกเสียงอัตโนมัติ)
+            startBgmPlayback();
+            ensureVinylNotesLoop();
+        };
+    </script>
+</body>
+</html>
